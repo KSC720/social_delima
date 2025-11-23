@@ -3,197 +3,700 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Social Dilemma: Reclaim Your Focus</title>
+    <title>Social Dilemma Awareness | Digital Detox</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Inter Font -->
+    <!-- Use Inter font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for the Inter font and smooth scrolling */
+        :root {
+            --color-primary: #1D4ED8; /* Blue */
+            --color-secondary: #F59E0B; /* Amber/Orange */
+        }
         body {
             font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
-            background-color: #0d1117; /* Dark background */
-            color: #e5e7eb; /* Light text */
+            background-color: #111827; /* Dark Grey/Blue Background */
+            color: #E5E7EB; /* Light Grey Text */
+            line-height: 1.6;
         }
-        /* Custom button styling for the WhatsApp link */
-        .whatsapp-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(27, 203, 107, 0.4);
+        /* Custom scrollbar for aesthetics */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+        .card {
+            background-color: #1F2937; /* Slightly lighter card background */
+            border: 1px solid #374151;
         }
-        .whatsapp-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(27, 203, 107, 0.6);
+        .whatsapp-icon {
+            background: #25D366;
+            color: white;
+            padding: 8px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dynamic Emojis/Icons */
+        @keyframes pulse-icon {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pulse-icon {
+            animation: pulse-icon 2s infinite ease-in-out;
+        }
+        
+        @keyframes subtle-shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-2px); }
+            40%, 80% { transform: translateX(2px); }
+        }
+        .animate-subtle-shake {
+            display: inline-block;
+            animation: subtle-shake 4s infinite 1s;
+        }
+
+        /* Form styling for dark mode */
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background-color: #111827; /* Darker input background */
+            border: 1px solid #374151;
+            color: #E5E7EB;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #F59E0B; /* Amber focus border */
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.5);
+        }
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #E5E7EB;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 z-50 bg-[#0d1117]/95 backdrop-blur-sm shadow-xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo/Site Title -->
-            <a href="#" class="flex items-center space-x-2 text-2xl font-extrabold text-[#17bf63] tracking-tight">
-                <!-- Simple "Logo" icon (Mindfulness icon) -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a4 4 0 0 0-4 4c0 1.6 1 3 2 4s2.5 3 2 6"></path><path d="M14 22a4 4 0 0 1 4-4c0-1.6-1-3-2-4s-2.5-3-2-6"></path></svg>
-                <span>Digital Focus</span>
-            </a>
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#dilemmas" class="hover:text-[#17bf63] transition duration-200">The Problem</a>
-                <a href="#solutions" class="hover:text-[#17bf63] transition duration-200">The Solution</a>
-                <a href="#contact" class="hover:text-[#17bf63] transition duration-200">Contact</a>
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Navigation -->
+        <header class="card sticky top-0 z-10 shadow-lg">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+                <!-- Logo/Icon -->
+                <div class="flex items-center space-x-2 text-2xl font-bold text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500 animate-pulse-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 0H3C1.346 0 0 1.346 0 3v18c0 1.654 1.346 3 3 3h18c1.654 0 3-1.346 3-3V3c0-1.654-1.346-3-3-3zm-9.006 19.34a2.502 2.502 0 0 1-2.5-2.5c0-1.381 1.119-2.5 2.5-2.5 1.381 0 2.5 1.119 2.5 2.5 0 1.381-1.119 2.5-2.5 2.5zM19 14H5V5h14v9z"/>
+                        <path fill="#F59E0B" d="M12.006 17.006a1 1 0 0 0-.001-2c-.552 0-1-.448-1-1v-2a1 1 0 1 0-2 0v2c0 1.654 1.346 3 3 3z"/>
+                        <path fill="#F59E0B" d="M12.006 19.34a.5.5 0 0 0 0-1 1.5 1.5 0 1 1 0 3 .5.5 0 0 0 0-1 1.5 1.5 0 0 1 0-1z"/>
+                    </svg>
+                    <span>Digital Detox</span>
+                </div>
+
+                <!-- Nav Links -->
+                <div class="space-x-4">
+                    <a href="#" onclick="showPage('home')" class="nav-link text-gray-300 hover:text-amber-400 transition">Home</a>
+                    <a href="#" onclick="showPage('about')" class="nav-link text-gray-300 hover:text-amber-400 transition">What is it?</a>
+                    <a href="#" onclick="showPage('contact')" class="nav-link text-gray-300 hover:text-amber-400 transition">Contact Us</a>
+                </div>
             </nav>
-        </div>
-    </header>
+        </header>
 
-    <!-- Hero Section -->
-    <section class="text-center py-20 md:py-32 bg-gray-900 border-b border-gray-800">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight mb-4 text-white">
-                Reclaim Your <span class="text-[#17bf63]">Time</span>. Restore Your <span class="text-[#17bf63]">Life</span>.
-            </h1>
-            <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                In a world designed to distract, find the tools to break free from digital dependency and build a life of presence and balance.
-            </p>
-            <a href="#solutions" class="inline-block px-8 py-3 bg-[#17bf63] text-gray-900 font-bold rounded-full text-lg shadow-lg hover:bg-[#15a356] transition duration-300 transform hover:scale-105">
-                Start Your Journey Now
-            </a>
-        </div>
-    </section>
-
-    <!-- Social Dilemmas Section -->
-    <section id="dilemmas" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-white">The Four Pillars of the Digital Dilemma</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <!-- Main Content Area -->
+        <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             
-            <!-- 1. Mobile Addiction -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-2xl transition duration-300 hover:shadow-cyan-500/30">
-                <div class="flex items-center mb-4">
-                    <span class="text-3xl text-cyan-400 mr-3">📱</span>
-                    <h3 class="text-xl font-semibold text-white">The Constant Pull</h3>
+            <!-- Home Page -->
+            <section id="home-page" class="page-content">
+                <div class="text-center mb-16">
+                    <h1 class="text-5xl sm:text-6xl font-extrabold text-white leading-tight">
+                        Reclaim Your Focus. <span class="text-amber-500">Break the Scroll.</span>
+                    </h1>
+                    <p class="mt-4 text-xl text-gray-400 max-w-3xl mx-auto">
+                        Raising awareness about the powerful, often hidden, influence of social media on our lives and mental well-being.
+                    </p>
                 </div>
-                <h4 class="font-medium text-gray-300 mb-2">Mobile Addiction</h4>
-                <p class="text-gray-400 text-sm">The compulsive need to check devices, leading to decreased attention span and a state of perpetual distraction. It steals the present moment.</p>
-            </div>
 
-            <!-- 2. Affect on Mental Health -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-2xl transition duration-300 hover:shadow-purple-500/30">
-                <div class="flex items-center mb-4">
-                    <span class="text-3xl text-purple-400 mr-3">🧠</span>
-                    <h3 class="text-xl font-semibold text-white">The Hidden Toll</h3>
+                <!-- What Is Social Dilemma? -->
+                <div id="about-us-page" class="card p-6 sm:p-8 rounded-xl shadow-2xl mb-12">
+                    <h2 class="text-3xl font-bold text-amber-500 mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 mr-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12v-.008Z" />
+                        </svg>
+                        What Is The Social Dilemma?
+                    </h2>
+                    <ul class="space-y-4 text-lg text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none animate-subtle-shake">📱😟</span>
+                            <span>The Social Dilemma refers to how social media platforms are engineered to influence our behavior and decisions.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">🔗💭</span>
+                            <span>It highlights manipulative design features, like infinite scroll and notification systems, specifically used to keep users constantly online and engaged.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">🔍🎯</span>
+                            <span>It shows how vast personal data is continuously collected and used to create precise psychological profiles for targeted content and advertisements.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">🧠💡</span>
+                            <span>The movement raises awareness about the critical impact of excessive screen time, digital dependency, and the erosion of mental health.</span>
+                        </li>
+                    </ul>
                 </div>
-                <h4 class="font-medium text-gray-300 mb-2">Mental Health Strain</h4>
-                <p class="text-gray-400 text-sm">Increased anxiety, feelings of inadequacy (due to curated online lives), and sleep disruption are direct consequences of excessive screen time.</p>
-            </div>
 
-            <!-- 3. Affect on Family/Relationships -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-2xl transition duration-300 hover:shadow-red-500/30">
-                <div class="flex items-center mb-4">
-                    <span class="text-3xl text-red-400 mr-3">👨‍👩‍👧‍👦</span>
-                    <h3 class="text-xl font-semibold text-white">The Distance Within</h3>
+                <!-- How It Impacts Humans & Social Life (Mobile Addiction) -->
+                <div class="card p-6 sm:p-8 rounded-xl shadow-2xl mb-12">
+                    <h2 class="text-3xl font-bold text-amber-500 mb-6 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 mr-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125l9.789 7.029-9.526 2.664-9.789-7.029V5.112z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21.25V7.5L3 13.125M12 21.25l-9-5.125m9 5.125v-9.75M12 7.5l-9-5.125" />
+                        </svg>
+                        How It Impacts Humans & Social Life
+                    </h2>
+                    <ul class="space-y-4 text-lg text-gray-300">
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">😶‍🌫️</span>
+                            <span>**Reduced real-life social interaction:** Prioritizing digital connections over face-to-face engagements, leading to social isolation.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">😥</span>
+                            <span>**Increased anxiety, stress, and FOMO:** Constantly comparing oneself to idealized online personas.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">🌙📱</span>
+                            <span>**Sleep disturbance due to late-night scrolling:** Blue light exposure and mental stimulation disrupting natural sleep cycles.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">⏳</span>
+                            <span>**Decreased productivity and attention span:** The constant need for micro-dopamine hits trains the brain for instant, shallow gratification.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-3xl mr-3 leading-none">💬❌</span>
+                            <span>**Relationship strain and lack of meaningful conversations:** Presence in body, absence in mind during shared experiences due to phone distraction.</span>
+                        </li>
+                    </ul>
                 </div>
-                <h4 class="font-medium text-gray-300 mb-2">Relationship Erosion</h4>
-                <p class="text-gray-400 text-sm">Devices replace genuine connection. Spouses and children feel neglected when attention is constantly diverted, leading to conflict and emotional distance.</p>
-            </div>
 
-            <!-- 4. Work-Life Balance -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-2xl transition duration-300 hover:shadow-yellow-500/30">
-                <div class="flex items-center mb-4">
-                    <span class="text-3xl text-yellow-400 mr-3">⚖️</span>
-                    <h3 class="text-xl font-semibold text-white">The Boundary Collapse</h3>
+                <!-- Call to Action: Addiction Test -->
+                <div class="text-center pt-8 pb-12 border-b border-gray-700 mb-12">
+                    <h3 class="text-3xl font-bold text-white mb-4">Ready to Check Your Digital Dependency?</h3>
+                    <button onclick="showPage('quiz')"
+                            class="bg-amber-600 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow-xl transition transform hover:scale-105 active:scale-95 text-xl">
+                        📝 Take the Mobile Addiction Test
+                    </button>
                 </div>
-                <h4 class="font-medium text-gray-300 mb-2">Work-Life Integration</h4>
-                <p class="text-gray-400 text-sm">The 24/7 accessibility blurs boundaries, making it difficult to switch off. This leads to burnout and a constant state of being "on call."</p>
-            </div>
 
-        </div>
-    </section>
+                <!-- Contact Details & WhatsApp on Home Page -->
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Contact Details -->
+                    <div class="card p-6 rounded-xl shadow-xl">
+                        <h3 class="text-2xl font-semibold text-white mb-4 flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2 text-amber-500">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                            Need Immediate Support?
+                        </h3>
+                        <div class="space-y-3 text-lg">
+                            <p class="text-gray-300">
+                                <span class="font-bold text-amber-400">Email:</span> 
+                                <a href="mailto:suryasevanthi.socialdelima@gmail.com" class="hover:underline">suryasevanthi.socialdelima@gmail.com</a>
+                            </p>
+                            <p class="text-gray-300">
+                                <span class="font-bold text-amber-400">Phone:</span> 
+                                <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
+                            </p>
+                        </div>
+                    </div>
 
-    <!-- Solutions Section -->
-    <section id="solutions" class="py-16 md:py-24 bg-gray-900 border-t border-b border-gray-800">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-white">
-          The Way Forward: Practical Solutions
-        </h2>
-        <div class="space-y-10">
-    
-          <!-- Solution Block 1: Digital Detox -->
-          <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-[#17bf63]">
-            <h3 class="text-2xl font-semibold mb-2 text-white">Establish Digital Boundaries</h3>
-            <p class="text-gray-400">
-              Implement <span class="font-bold text-green-400">"Phone-Free Zones"</span> like the dining table and bedroom.
-              Use device-free time slots (e.g., 7 PM onwards) to reconnect with real-world activities and loved ones.
-            </p>
-          </div>
-    
-          <!-- Solution Block 2: Mindful Usage -->
-          <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-purple-400">
-            <h3 class="text-2xl font-semibold mb-2 text-white">Practice Intentional Screen Time</h3>
-            <p class="text-gray-400">
-              Turn off all non-essential <span class="font-bold text-green-400">notifications</span>.
-              Schedule specific times to check social media or email, rather than reacting instantly to every ping.
-              Replace doomscrolling with mindful breathing exercises.
-            </p>
-          </div>
-    
-          <!-- Solution Block 3: Relationship Investment -->
-          <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-red-400">
-            <h3 class="text-2xl font-semibold mb-2 text-white">Cultivate Present Relationships</h3>
-            <p class="text-gray-400">
-              During family time or date night, physically <span class="font-bold text-green-400">put your phone away</span> and silence it.
-              Dedicate 15 minutes of uninterrupted, device-free conversation with your spouse or children daily.
-            </p>
-          </div>
-    
-          <!-- Solution Block 4: Hard Stops for Work -->
-          <div class="bg-gray-800 p-6 rounded-xl border-l-4 border-yellow-400">
-            <h3 class="text-2xl font-semibold mb-2 text-white">Define Your Work-Life Finish Line</h3>
-            <p class="text-gray-400">
-              Commit to a <span class="font-bold text-green-400">"Digital Sunset"</span> — a set time when all work-related apps and emails are closed until the next day.
-              Communicate this boundary clearly to colleagues to manage expectations.
-            </p>
-          </div>
-    
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Contact Info Footer -->
-    <footer id="contact" class="bg-[#0d1117] py-12 md:py-16 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-8 text-white">Ready to Break Free? Connect With Us.</h2>
-            
-            <!-- Contact Details Grid -->
-            <div class="flex flex-col md:flex-row justify-center space-y-6 md:space-y-0 md:space-x-12 mb-10 text-gray-400">
-                <!-- Email -->
-                <div class="flex items-center justify-center space-x-3">
-                    <!-- Email Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#17bf63]"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                    <span class="text-white font-medium">Email:</span> <a href="mailto:suryasevanthi.socialdelima@gmail.com" class="hover:text-[#17bf63] transition duration-200">suryasevanthi.socialdelima@gmail.com</a>
+                    <!-- WhatsApp Channel -->
+                    <div class="card p-6 rounded-xl shadow-xl">
+                        <div class="flex items-center mb-4">
+                            <div class="whatsapp-icon animate-pulse-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
+                            </div>
+                            <h3 class="text-2xl font-semibold text-white ml-3">Join Our WhatsApp Channel</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">
+                            Receive daily tips, mindful challenges, and resources for a healthier digital life. Join our community for real-time support!
+                        </p>
+                        <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
+                            Join Channel
+                        </a>
+                    </div>
                 </div>
                 
-                <!-- Phone Number -->
-                <div class="flex items-center justify-center space-x-3">
-                    <!-- Phone Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5 text-[#17bf63]"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-5.6-5.6A19.79 19.79 0 0 1 2 4.18 2 2 0 0 1 4.18 2h3c.47 0 .9.2 1.13.56l2 4a.9.9 0 0 1-.22 1.05l-1.64 1.64c.01.21.03.41.05.62.24 2.37.94 4.09 2.5 5.66.86.86 1.83 1.57 2.92 2.06l.75-.75a.9.9 0 0 1 1.05-.22l4 2c.36.19.56.62.56 1.13z"></path></svg>
-                    <span class="text-white font-medium">Phone:</span> <a href="tel:+91 9886999720" class="hover:text-[#17bf63] transition duration-200">+91 9886999720</a>
+            </section>
+
+            <!-- Quiz Page -->
+            <section id="quiz-page" class="page-content hidden">
+                <h1 class="text-4xl font-extrabold text-white mb-8 border-b border-gray-700 pb-4">
+                    Self-Check: Mobile/Social Media Addiction Test
+                </h1>
+                <p class="text-lg text-gray-400 mb-8">Select the option that best describes your behavior. Options C and D indicate higher levels of digital dependency.</p>
+                
+                <form id="addiction-quiz" class="space-y-8">
+                    <!-- Questions will be dynamically inserted here -->
+                </form>
+
+                <div class="mt-10 pt-6 border-t border-gray-700 flex justify-end">
+                    <button id="submit-quiz-btn" onclick="submitQuiz()"
+                            class="bg-amber-600 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-lg shadow-xl transition transform hover:scale-[1.02] active:scale-[0.98]">
+                        Submit My Results
+                    </button>
                 </div>
+
+                <!-- Result Display -->
+                <div id="quiz-result" class="hidden mt-12 p-8 card rounded-xl shadow-2xl">
+                    <h2 class="text-3xl font-bold text-white mb-4 border-b border-gray-600 pb-2">Your Test Summary</h2>
+                    <div id="summary-details" class="text-lg text-gray-300 grid grid-cols-2 gap-4">
+                        <!-- Summary details here -->
+                    </div>
+                    
+                    <!-- Main Warning/Result Box -->
+                    <div id="final-warning" class="mt-6 p-4 rounded-lg text-xl font-semibold border-l-4">
+                        <!-- Warning message here -->
+                    </div>
+
+                    <!-- Attractive Call to Action (Appears for high risk) -->
+                    <div id="seek-help-cta" class="hidden mt-8 p-6 rounded-xl bg-blue-800/30 border-2 border-blue-500 shadow-2xl text-center">
+                        <h3 class="text-3xl font-bold text-blue-300 mb-2">🔥 Time to Take Back Control! 🔥</h3>
+                        <p class="text-lg text-white mb-6">
+                            Don't wait for the digital world to consume your real life. <span class="font-bold text-amber-300">Your next step starts now.</span>
+                        </p>
+                        <button onclick="showPage('contact')"
+                                class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 active:scale-95 text-lg shadow-lg">
+                            💬 Seek Help & Get a Detox Plan
+                        </button>
+                    </div>
+
+                    <div class="mt-6 text-center">
+                        <button onclick="showPage('home')" class="text-amber-500 hover:text-amber-400 transition">← Back to Home</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Page: Form and Details -->
+            <section id="contact-page" class="page-content hidden">
+                <div class="text-center mb-12">
+                    <h1 class="text-5xl font-extrabold text-white mb-4">Connect With Our Team</h1>
+                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                        Whether you need professional advice, want to schedule a detox consultation, or have general questions, please reach out. We ensure complete confidentiality.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- Contact Form (2/3 width on desktop) -->
+                    <div class="lg:col-span-2 card p-8 rounded-xl shadow-2xl">
+                        <h2 class="text-3xl font-bold text-amber-500 mb-6 border-b border-gray-700 pb-3">Send Us Your Inquiry</h2>
+                        
+                        <!-- CRITICAL: Updated action with user's new email -->
+                        <form id="contact-form" action="https://formsubmit.co/suryasevanthi.socialdelima@gmail.com" method="POST" onsubmit="handleFormSubmission(event)">
+                            
+                            <!-- HIDDEN FIELDS REQUIRED BY FORMSUBMIT -->
+                            <input type="hidden" name="_subject" value="New Digital Detox Inquiry from Website">
+                            <!-- Optional: Redirects the user back to the contact page after submission instead of the default FormSubmit page -->
+                            <input type="hidden" name="_next" value="http://127.0.0.1:5500/index.html?contact-submitted=true"> 
+
+                            <!-- Name and Email -->
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="form-label">Full Name</label>
+                                    <!-- name="name" is important for the receiving email -->
+                                    <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
+                                </div>
+                                <div>
+                                    <label for="email" class="form-label">Email Address (Reply To)</label>
+                                    <!-- name="_replyto" tells FormSubmit where to reply -->
+                                    <input type="email" id="email" name="_replyto" class="form-input" placeholder="name@example.com" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Phone and Subject -->
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="phone" class="form-label">Phone Number (Optional)</label>
+                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="(123) 456-7890">
+                                </div>
+                                <div>
+                                    <label for="subject" class="form-label">Subject</label>
+                                    <select id="subject" name="subject" class="form-input" required>
+                                        <option value="" disabled selected>Select a reason for contact</option>
+                                        <option value="detox-consultation">Digital Detox Consultation</option>
+                                        <option value="quiz-followup">Quiz Results Follow-up</option>
+                                        <option value="general-inquiry">General Inquiry</option>
+                                        <option value="media-request">Media/Press Request</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div>
+                                <label for="message" class="form-label">Your Message / Query</label>
+                                <textarea id="message" name="message" rows="5" class="form-input" placeholder="Describe your concerns or request in detail..." required></textarea>
+                            </div>
+
+                            <!-- Submission Button -->
+                            <button type="submit"
+                                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-[1.01] active:scale-95 text-lg shadow-xl">
+                                Send Message (Completely Confidential)
+                            </button>
+
+                            <div id="form-feedback" class="mt-4 p-3 rounded-lg text-center hidden"></div>
+                        </form>
+                    </div>
+
+                    <!-- Contact Details (1/3 width on desktop) -->
+                    <div class="lg:col-span-1 space-y-8">
+                        <!-- Direct Contact Block -->
+                        <div class="card p-6 rounded-xl shadow-xl">
+                            <h3 class="text-2xl font-semibold text-white mb-4 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2 text-amber-500">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                                </svg>
+                                Direct Contact
+                            </h3>
+                            <div class="space-y-3 text-lg">
+                                <p class="text-gray-300">
+                                    <span class="font-bold text-amber-400">Email:</span> 
+                                    <a href="mailto:suryasevanthi.socialdelima@gmail.com" class="hover:underline">suryasevanthi.socialdelima@gmail.com</a>
+                                </p>
+                                <p class="text-gray-300">
+                                    <span class="font-bold text-amber-400">Phone:</span> 
+                                    <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp Block -->
+                        <div class="card p-6 rounded-xl shadow-xl">
+                            <div class="flex items-center mb-4">
+                                <div class="whatsapp-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
+                                </div>
+                                <h3 class="text-2xl font-semibold text-white ml-3">Join Our WhatsApp Channel</h3>
+                            </div>
+                            <p class="text-gray-400 mb-4">
+                                Get daily tips and mindful challenges directly.
+                            </p>
+                            <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
+                                Join Channel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="card mt-12 py-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <p>&copy; 2024 Digital Detox Initiative. All rights reserved. | <a href="#" onclick="showPage('contact')" class="hover:text-amber-500">Resources</a></p>
             </div>
+        </footer>
+    </div>
 
-            <!-- WhatsApp Channel Link with Catchy Message & Logo -->
-            <a 
-                href="https://whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" 
-                target="_blank" 
-                class="whatsapp-button inline-flex items-center px-8 py-4 bg-[#25d366] text-white font-bold rounded-full text-lg shadow-xl shadow-[#25d366]/50 hover:bg-[#1ebe55] transition duration-300"
-                rel="noopener noreferrer"
-            >
-                <!-- WhatsApp Icon (Logo) -->
-                <h3> 👉 Join Us on WhatsApp! 💬📲 </h3>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 mr-3">
-                    <path d="M12 0c6.627 0 12 5.373 12 12s-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0zm5.101 15.253c-.303.497-1.745.922-2.31 1.004-.566.082-1.393.262-2.388-.238-.995-.5-2.617-1.554-3.704-3.376-.118-.198-.242-.456-.051-.646l.204-.204c.05-.05.11-.08.17-.08.06.01.12.01.18.01.212.03.385.08.525.24.14.16.29.35.41.56.12.21.242.44.37.66.128.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.385.67.129.22.256.45.
+    <script>
+        // --- Navigation Logic ---
+        let currentPage = 'home';
+        const pages = ['home', 'quiz', 'contact'];
 
- 
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuiz();
+            // Check for URL parameter indicating a successful form submission
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('contact-submitted') === 'true') {
+                showPage('contact');
+                const feedbackDiv = document.getElementById('form-feedback');
+                feedbackDiv.classList.remove('hidden');
+                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
+                feedbackDiv.innerHTML = '🎉 Success! Your message has been sent. We will get back to you within 24 hours (Check your inbox for a verification email if this is your first submission!).';
+                history.replaceState(null, '', window.location.pathname); // Clean up the URL
+            } else {
+                showPage('home');
+            }
+        });
 
+        function showPage(pageId) {
+            currentPage = pageId;
+            pages.forEach(id => {
+                const element = document.getElementById(id + '-page');
+                if (element) {
+                    element.classList.toggle('hidden', id !== pageId);
+                }
+            });
+            window.scrollTo(0, 0); // Scroll to top on page change
+        }
 
+        // --- Quiz Data and Logic (unchanged) ---
+        const quizQuestions = [
+            {
+                q: "How often do you check your phone within 5 minutes of waking up?",
+                options: [
+                    { label: "A. Rarely/Never (I check after breakfast)", value: 'A' },
+                    { label: "B. Sometimes (After getting out of bed)", value: 'B' },
+                    { label: "C. Often (While still in bed)", value: 'C' },
+                    { label: "D. Immediately (It's the first thing I do)", value: 'D' }
+                ]
+            },
+            {
+                q: "If you forget your phone at home, how do you feel?",
+                options: [
+                    { label: "A. Fine, I'll enjoy the break.", value: 'A' },
+                    { label: "B. Slightly annoyed, but manageable.", value: 'B' },
+                    { label: "C. Stressed/Anxious about missing something important.", value: 'C' },
+                    { label: "D. Panic/Need to go back and get it immediately.", value: 'D' }
+                ]
+            },
+            {
+                q: "How often do you scroll through social media when you are with friends or family?",
+                options: [
+                    { label: "A. Rarely/Never, I put it away.", value: 'A' },
+                    { label: "B. Occasionally, only during quiet moments.", value: 'B' },
+                    { label: "C. Frequently, whenever there's a lull in conversation.", value: 'C' },
+                    { label: "D. Constantly, checking it even mid-sentence.", value: 'D' }
+                ]
+            },
+            {
+                q: "Do you check notifications while driving or crossing the street?",
+                options: [
+                    { label: "A. Never, I keep it secured.", value: 'A' },
+                    { label: "B. Rarely, only when stopped at a light.", value: 'B' },
+                    { label: "C. Sometimes, I glance at it quickly.", value: 'C' },
+                    { label: "D. Often, I check it regardless of the situation.", value: 'D' }
+                ]
+            },
+            {
+                q: "How often do you lose sleep due to using your phone late at night?",
+                options: [
+                    { label: "A. Never, I stick to a screen curfew.", value: 'A' },
+                    { label: "B. Sometimes, I lose less than 30 minutes of sleep.", value: 'B' },
+                    { label: "C. Often, I stay up 30-60 minutes past my bedtime.", value: 'C' },
+                    { label: "D. Almost every night, losing over an hour of sleep.", value: 'D' }
+                ]
+            },
+            {
+                q: "How often do you pick up your phone without a specific goal (just checking)?",
+                options: [
+                    { label: "A. Rarely, I only use it for tasks.", value: 'A' },
+                    { label: "B. A few times a day.", value: 'B' },
+                    { label: "C. Many times an hour.", value: 'C' },
+                    { label: "D. Automatically, it feels constant and unconscious.", value: 'D' }
+                ]
+            },
+            {
+                q: "When eating a meal, where is your phone?",
+                options: [
+                    { label: "A. Away/Silent, out of sight.", value: 'A' },
+                    { label: "B. On the table, face down.", value: 'B' },
+                    { label: "C. On the table, face up, I check notifications.", value: 'C' },
+                    { label: "D. In hand or propped up, watching content on it.", value: 'D' }
+                ]
+            },
+            {
+                q: "Do you feel a compulsive need to respond to messages or comments immediately?",
+                options: [
+                    { label: "A. Never, I respond when it's convenient.", value: 'A' },
+                    { label: "B. Sometimes, if it's work-related.", value: 'B' },
+                    { label: "C. Often, I don't like to leave people waiting.", value: 'C' },
+                    { label: "D. Always, I feel anxious if I don't respond right away.", value: 'D' }
+                ]
+            },
+            {
+                q: "Has your productivity or attention span decreased due to phone use?",
+                options: [
+                    { label: "A. No, I manage my time well.", value: 'A' },
+                    { label: "B. Slightly, on occasion.", value: 'B' },
+                    { label: "C. Moderately, I often struggle to focus on deep tasks.", value: 'C' },
+                    { label: "D. Significantly, my ability to concentrate is poor.", value: 'D' }
+                ]
+            },
+            {
+                q: "How long can you comfortably stay offline (voluntarily)?",
+                options: [
+                    { label: "A. Days (I enjoy digital breaks)", value: 'A' },
+                    { label: "B. Several hours (During a movie or hobby)", value: 'B' },
+                    { label: "C. 1-2 hours (Then I feel a need to check)", value: 'C' },
+                    { label: "D. Less than 30 minutes (I constantly need to check)", value: 'D' }
+                ]
+            },
+            {
+                q: "Do you feel anxious if your phone battery is low or signal is poor?",
+                options: [
+                    { label: "A. No, I don't worry about it.", value: 'A' },
+                    { label: "B. A little, but I quickly forget it.", value: 'B' },
+                    { label: "C. Moderately anxious, I need to find a charger/signal fast.", value: 'C' },
+                    { label: "D. Very stressed, it ruins my concentration (Nomophobia).", value: 'D' }
+                ]
+            },
+            {
+                q: "Do you often feel you 'miss out' (FOMO) if you don't check social media regularly?",
+                options: [
+                    { label: "A. Never, I prioritize real life.", value: 'A' },
+                    { label: "B. Rarely, sometimes I see an interesting post.", value: 'B' },
+                    { label: "C. Sometimes, I feel like I'm not in the loop.", value: 'C' },
+                    { label: "D. Often, I feel anxious if I don't know what's happening online.", value: 'D' }
+                ]
+            },
+            {
+                q: "How often do you find yourself scrolling during real-life conversations?",
+                options: [
+                    { label: "A. Never, I give full attention.", value: 'A' },
+                    { label: "B. Rarely, only for a necessary fact check.", value: 'B' },
+                    { label: "C. Occasionally, when the conversation gets boring.", value: 'C' },
+                    { label: "D. Often, I struggle to stay engaged without my phone.", value: 'D' }
+                ]
+            },
+            {
+                q: "Have others commented on your excessive screen time or asked you to put your phone away?",
+                options: [
+                    { label: "A. Never.", value: 'A' },
+                    { label: "B. Once or twice, as a joke.", value: 'B' },
+                    { label: "C. A few times, indicating a genuine concern.", value: 'C' },
+                    { label: "D. Regularly, across different social circles.", value: 'D' }
+                ]
+            },
+            {
+                q: "Do you ever try to hide your screen usage from others (e.g., scrolling secretly)?",
+                options: [
+                    { label: "A. Never, I have nothing to hide.", value: 'A' },
+                    { label: "B. Rarely, if I'm checking something sensitive.", value: 'B' },
+                    { label: "C. Sometimes, if I feel judged by others.", value: 'C' },
+                    { label: "D. Often, to avoid confrontation or being told off.", value: 'D' }
+                ]
+            }
+        ];
+
+        function renderQuiz() {
+            const form = document.getElementById('addiction-quiz');
+            form.innerHTML = '';
+            quizQuestions.forEach((qData, index) => {
+                const qNum = index + 1;
+                
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'card p-6 rounded-xl shadow-lg';
+                questionDiv.innerHTML = `
+                    <p class="text-xl font-semibold mb-4 text-amber-400">Q${qNum}: ${qData.q}</p>
+                    <div class="space-y-3">
+                        ${qData.options.map(option => `
+                            <label class="flex items-start p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                                <input type="radio" name="q${qNum}" value="${option.value}" required
+                                       class="mt-1 h-5 w-5 text-amber-500 focus:ring-amber-500 border-gray-600 bg-gray-900">
+                                <span class="ml-3 text-gray-200">${option.label}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                form.appendChild(questionDiv);
+            });
+        }
+
+        function submitQuiz() {
+            const form = document.getElementById('addiction-quiz');
+            const resultDiv = document.getElementById('quiz-result');
+            const summaryDetails = document.getElementById('summary-details');
+            const finalWarning = document.getElementById('final-warning');
+            const seekHelpCta = document.getElementById('seek-help-cta');
+
+            // Reset visibility
+            seekHelpCta.classList.add('hidden');
+            document.getElementById('form-feedback').classList.add('hidden'); // Hide any previous feedback
+
+            // Check if all questions are answered
+            let allAnswered = true;
+            const answers = {};
+            for (let i = 1; i <= quizQuestions.length; i++) {
+                const selected = form.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    allAnswered = false;
+                    break;
+                }
+                answers[`q${i}`] = selected.value;
+            }
+
+            if (!allAnswered) {
+                // Use a simple, non-alert message box for feedback
+                finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-red-800/30 text-red-300 border-red-500';
+                finalWarning.innerHTML = '🛑 Please answer all questions before submitting the test.';
+                resultDiv.classList.remove('hidden');
+                document.getElementById('submit-quiz-btn').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+            
+            // 1. Calculate scores
+            const score = { A: 0, B: 0, C: 0, D: 0 };
+            Object.values(answers).forEach(choice => {
+                score[choice] = (score[choice] || 0) + 1;
+            });
+
+            const totalCD = score.C + score.D;
+            const isHighlyAddicted = totalCD > 10;
+            
+            // 2. Display summary
+            summaryDetails.innerHTML = `
+                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">A Selections:</span> ${score.A}</div>
+                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">B Selections:</span> ${score.B}</div>
+                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">C Selections:</span> ${score.C}</div>
+                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">D Selections:</span> ${score.D}</div>
+                <div class="col-span-2 p-2 rounded-md bg-amber-900/40 font-bold text-xl text-amber-300">Total High-Risk (C+D): ${totalCD} / ${quizQuestions.length}</div>
+            `;
+
+            // 3. Display final result/warning
+            if (isHighlyAddicted) {
+                finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-red-800/30 text-red-300 border-red-500';
+                finalWarning.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-4xl animate-subtle-shake">🚨</span>
+                        <span>**CRITICAL WARNING:** You may be highly addicted to mobile/social media.</span>
+                    </div>
+                    <p class="mt-2 text-base text-gray-300">Your results indicate a strong, potentially problematic dependency. It's time to take serious action to protect your mental health and relationships.</p>
+                `;
+                seekHelpCta.classList.remove('hidden'); // Show the attractive CTA
+            } else if (totalCD >= 5) {
+                 finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-yellow-800/30 text-yellow-300 border-yellow-500';
+                 finalWarning.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-3xl">💡</span>
+                        <span>**NOTE:** You show moderate signs of dependency.</span>
+                    </div>
+                    <p class="mt-2 text-base text-gray-300">You exhibit some concerning usage patterns. Consider setting stricter screen limits and being more mindful of your device usage before it progresses.</p>
+                `;
+            }
+            else {
+                finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-green-800/30 text-green-300 border-green-500';
+                finalWarning.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <span class="text-3xl">✅</span>
+                        <span>**RESULT:** Healthy Digital Balance.</span>
+                    </div>
+                    <p class="mt-2 text-base text-gray-300">Your usage appears to be balanced and mindful. Keep up the great work in maintaining a healthy relationship with technology!</p>
+                `;
+            }
+
+            // Show results and scroll to them
+            form.classList.add('hidden');
+            document.getElementById('submit-quiz-btn').classList.add('hidden');
+            resultDiv.classList.remove('hidden');
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- Contact Form Submission Handler (Updated for FormSubmit) ---
+        function handleFormSubmission(event) {
+            const form = event.target;
+            const feedbackDiv = document.getElementById('form-feedback');
+            
+            // Allow the browser to proceed with the POST request, but show a temporary message.
+            feedbackDiv.classList.remove('hidden');
+            feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
+            feedbackDiv.innerHTML = 'Sending your message... Please wait for a moment for the confirmation page.';
+        }
+    </script>
+</body>
+</html>
