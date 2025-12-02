@@ -13,21 +13,43 @@
             --color-primary: #1D4ED8; /* Blue */
             --color-secondary: #F59E0B; /* Amber/Orange */
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #111827; /* Dark Grey/Blue Background */
-            color: #E5E7EB; /* Light Grey Text */
+            background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+            color: #E5E7EB;
             line-height: 1.6;
         }
-        /* Custom scrollbar for aesthetics */
+
+        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1f2937; }
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
+
         .card {
-            background-color: #1F2937; /* Slightly lighter card background */
-            border: 1px solid #374151;
+            background-color: #020617e6;
+            border: 1px solid #1f2937;
+            box-shadow:
+              0 18px 45px rgba(0, 0, 0, 0.55),
+              0 0 0 1px rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
         }
+
+        .card.hover-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(245, 158, 11, 0.6);
+            box-shadow:
+              0 22px 60px rgba(0, 0, 0, 0.7),
+              0 0 0 1px rgba(248, 250, 252, 0.06);
+            background-color: rgba(15, 23, 42, 0.98);
+        }
+
         .whatsapp-icon {
             background: #25D366;
             color: white;
@@ -59,20 +81,37 @@
             animation: subtle-shake 4s infinite 1s;
         }
 
-        /* Form styling for dark mode */
+        /* Hero glow orb */
+        .hero-orb {
+            position: absolute;
+            inset: auto;
+            top: -80px;
+            left: 50%;
+            width: 540px;
+            height: 540px;
+            transform: translateX(-50%);
+            background: radial-gradient(circle, rgba(248, 250, 252, 0.12) 0, transparent 60%);
+            filter: blur(1px);
+            pointer-events: none;
+            opacity: 0.55;
+        }
+
+        /* Form styling */
         .form-input {
             width: 100%;
             padding: 1rem;
-            background-color: #111827; /* Darker input background */
-            border: 1px solid #374151;
+            background-color: #020617;
+            border: 1px solid #1f2937;
             color: #E5E7EB;
-            border-radius: 0.5rem;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            border-radius: 0.75rem;
+            transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s, transform 0.15s;
         }
         .form-input:focus {
             outline: none;
-            border-color: #F59E0B; /* Amber focus border */
-            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.5);
+            border-color: #F59E0B;
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.5), 0 0 30px rgba(245, 158, 11, 0.3);
+            background-color: #020617;
+            transform: translateY(-1px);
         }
         .form-label {
             display: block;
@@ -80,17 +119,94 @@
             margin-bottom: 0.5rem;
             color: #E5E7EB;
         }
+
+        /* Primary buttons shimmer */
+        .primary-btn {
+            position: relative;
+            overflow: hidden;
+            background-image: linear-gradient(90deg, #F59E0B, #F97316, #FACC15);
+            background-size: 200% 100%;
+            transition: transform 0.15s ease, box-shadow 0.2s ease, background-position 0.5s ease;
+        }
+
+        .primary-btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.6s;
+        }
+
+        .primary-btn:hover {
+            background-position: 100% 0;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(250, 204, 21, 0.25);
+        }
+
+        .primary-btn:hover::after {
+            opacity: 1;
+            transform: translateX(100%);
+        }
+
+        .primary-btn:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: none;
+        }
+
+        /* Section entrance animation */
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(16px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fade-in-up 0.6s ease-out both;
+        }
+
+        /* Success modal animation */
+        @keyframes modal-pop {
+            0% {
+                transform: scale(0.9) translateY(10px);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-pop {
+            animation: modal-pop 0.35s ease-out;
+        }
+
+        /* Scroll-to-top button */
+        #scroll-top-btn {
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        #scroll-top-btn.hidden-btn {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(10px);
+        }
+        #scroll-top-btn.visible-btn {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
     </style>
 </head>
-<body>
+<body class="relative">
 
-    <div id="app" class="min-h-screen flex flex-col">
+    <!-- Hero glow background orb -->
+    <div class="hero-orb"></div>
+
+    <div id="app" class="min-h-screen flex flex-col relative z-10">
         <!-- Navigation -->
-        <header class="card sticky top-0 z-10 shadow-lg">
-            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        <header class="card sticky top-0 z-20 shadow-lg bg-slate-900/90 backdrop-blur-md rounded-none">
+            <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4 flex justify-between items-center">
                 <!-- Logo/Icon -->
-                <div class="flex items-center space-x-2 text-2xl font-bold text-white">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-500 animate-pulse-icon" viewBox="0 0 24 24" fill="currentColor">
+                <div class="flex items-center space-x-2 text-xl sm:text-2xl font-bold text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8 text-amber-500 animate-pulse-icon" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M21 0H3C1.346 0 0 1.346 0 3v18c0 1.654 1.346 3 3 3h18c1.654 0 3-1.346 3-3V3c0-1.654-1.346-3-3-3zm-9.006 19.34a2.502 2.502 0 0 1-2.5-2.5c0-1.381 1.119-2.5 2.5-2.5 1.381 0 2.5 1.119 2.5 2.5 0 1.381-1.119 2.5-2.5 2.5zM19 14H5V5h14v9z"/>
                         <path fill="#F59E0B" d="M12.006 17.006a1 1 0 0 0-.001-2c-.552 0-1-.448-1-1v-2a1 1 0 1 0-2 0v2c0 1.654 1.346 3 3 3z"/>
                         <path fill="#F59E0B" d="M12.006 19.34a.5.5 0 0 0 0-1 1.5 1.5 0 1 1 0 3 .5.5 0 0 0 0-1 1.5 1.5 0 0 1 0-1z"/>
@@ -99,102 +215,133 @@
                 </div>
 
                 <!-- Nav Links -->
-                <div class="space-x-4">
-                    <a href="#" onclick="showPage('home')" class="nav-link text-gray-300 hover:text-amber-400 transition">Home</a>
-                    <a href="#" onclick="showPage('about')" class="nav-link text-gray-300 hover:text-amber-400 transition">What is it?</a>
-                    <a href="#" onclick="showPage('contact')" class="nav-link text-gray-300 hover:text-amber-400 transition">Contact Us</a>
+                <div class="hidden sm:flex items-center space-x-2 text-sm sm:text-base">
+                    <a href="#" onclick="showPage('home')" class="nav-link px-3 py-1 rounded-full text-gray-300 hover:text-amber-400 hover:bg-slate-800/70 transition">
+                        Home
+                    </a>
+                    <a href="#about-us-page" onclick="scrollToAbout(event)" class="nav-link px-3 py-1 rounded-full text-gray-300 hover:text-amber-400 hover:bg-slate-800/70 transition">
+                        What is it?
+                    </a>
+                    <a href="#" onclick="showPage('contact')" class="nav-link px-3 py-1 rounded-full text-gray-300 hover:text-amber-400 hover:bg-slate-800/70 transition">
+                        Contact Us
+                    </a>
                 </div>
+
+                <!-- Mobile simple contact button -->
+                <button onclick="showPage('contact')" class="sm:hidden text-xs px-3 py-1 rounded-full bg-amber-500 text-slate-900 font-semibold">
+                    Contact
+                </button>
             </nav>
         </header>
 
         <!-- Main Content Area -->
-        <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
             
             <!-- Home Page -->
             <section id="home-page" class="page-content">
-                <div class="text-center mb-16">
-                    <h1 class="text-5xl sm:text-6xl font-extrabold text-white leading-tight">
-                        Reclaim Your Focus. <span class="text-amber-500">Break the Scroll.</span>
-                    </h1>
-                    <p class="mt-4 text-xl text-gray-400 max-w-3xl mx-auto">
-                        Raising awareness about the powerful, often hidden, influence of social media on our lives and mental well-being.
+                <div class="text-center mb-12 sm:mb-16 fade-in-up">
+                    <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs sm:text-sm border border-emerald-500/30 mb-4">
+                        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        100% private · No judgment · Just help
                     </p>
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight">
+                        Reclaim Your Focus.
+                        <span class="bg-gradient-to-r from-amber-300 via-orange-400 to-yellow-300 bg-clip-text text-transparent">
+                            Break the Scroll.
+                        </span>
+                    </h1>
+                    <p class="mt-4 text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto">
+                        Learn how social media is designed to hook your attention—and how you can take your time, energy, and peace of mind back.
+                    </p>
+                    <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button onclick="showPage('quiz')"
+                                class="primary-btn text-gray-900 font-bold py-3 px-8 rounded-full shadow-xl text-base sm:text-lg flex items-center gap-2">
+                            📝 Take the Mobile Addiction Test
+                        </button>
+                        <button onclick="showPage('contact')"
+                                class="px-5 py-2.5 rounded-full border border-slate-600 text-sm sm:text-base text-slate-200 hover:border-amber-400 hover:text-amber-300 transition">
+                            💬 Talk to someone
+                        </button>
+                    </div>
                 </div>
 
                 <!-- What Is Social Dilemma? -->
-                <div id="about-us-page" class="card p-6 sm:p-8 rounded-xl shadow-2xl mb-12">
-                    <h2 class="text-3xl font-bold text-amber-500 mb-6 flex items-center">
+                <div id="about-us-page" class="card hover-card p-6 sm:p-8 rounded-2xl shadow-2xl mb-10 sm:mb-12 fade-in-up">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-amber-500 mb-6 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 mr-3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12v-.008Z" />
                         </svg>
                         What Is The Social Dilemma?
                     </h2>
-                    <ul class="space-y-4 text-lg text-gray-300">
+                    <ul class="space-y-4 text-base sm:text-lg text-gray-300">
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none animate-subtle-shake">📱😟</span>
-                            <span>The Social Dilemma refers to how social media platforms are engineered to influence our behavior and decisions.</span>
+                            <span>The Social Dilemma explains how social media platforms are engineered to influence our behavior and decisions.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">🔗💭</span>
-                            <span>It highlights manipulative design features, like infinite scroll and notification systems, specifically used to keep users constantly online and engaged.</span>
+                            <span>They use design tricks like infinite scroll and red notification badges to keep you online for as long as possible.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">🔍🎯</span>
-                            <span>It shows how vast personal data is continuously collected and used to create precise psychological profiles for targeted content and advertisements.</span>
+                            <span>Apps constantly collect your data to build psychological profiles and show content that keeps you hooked.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">🧠💡</span>
-                            <span>The movement raises awareness about the critical impact of excessive screen time, digital dependency, and the erosion of mental health.</span>
+                            <span>The goal is not your well-being—it’s your attention. But awareness is the first step to taking control back.</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- How It Impacts Humans & Social Life (Mobile Addiction) -->
-                <div class="card p-6 sm:p-8 rounded-xl shadow-2xl mb-12">
-                    <h2 class="text-3xl font-bold text-amber-500 mb-6 flex items-center">
+                <div class="card hover-card p-6 sm:p-8 rounded-2xl shadow-2xl mb-10 sm:mb-12 fade-in-up">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-amber-500 mb-6 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 mr-3">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125l9.789 7.029-9.526 2.664-9.789-7.029V5.112z" />
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21.25V7.5L3 13.125M12 21.25l-9-5.125m9 5.125v-9.75M12 7.5l-9-5.125" />
                         </svg>
                         How It Impacts Humans & Social Life
                     </h2>
-                    <ul class="space-y-4 text-lg text-gray-300">
+                    <ul class="space-y-4 text-base sm:text-lg text-gray-300">
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">😶‍🌫️</span>
-                            <span>**Reduced real-life social interaction:** Prioritizing digital connections over face-to-face engagements, leading to social isolation.</span>
+                            <span><strong>Reduced real-life connection:</strong> Choosing screens over people leads to loneliness and emotional distance.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">😥</span>
-                            <span>**Increased anxiety, stress, and FOMO:** Constantly comparing oneself to idealized online personas.</span>
+                            <span><strong>Anxiety, stress & FOMO:</strong> Constant comparison with “perfect” lives online can damage self-esteem.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">🌙📱</span>
-                            <span>**Sleep disturbance due to late-night scrolling:** Blue light exposure and mental stimulation disrupting natural sleep cycles.</span>
+                            <span><strong>Broken sleep:</strong> Late-night scrolling and blue light disrupt your brain’s natural rest cycle.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">⏳</span>
-                            <span>**Decreased productivity and attention span:** The constant need for micro-dopamine hits trains the brain for instant, shallow gratification.</span>
+                            <span><strong>Weakened focus:</strong> Short, fast content trains your brain to crave constant stimulation.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">💬❌</span>
-                            <span>**Relationship strain and lack of meaningful conversations:** Presence in body, absence in mind during shared experiences due to phone distraction.</span>
+                            <span><strong>Strained relationships:</strong> Being physically present but mentally online hurts trust and intimacy.</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Call to Action: Addiction Test -->
-                <div class="text-center pt-8 pb-12 border-b border-gray-700 mb-12">
-                    <h3 class="text-3xl font-bold text-white mb-4">Ready to Check Your Digital Dependency?</h3>
+                <div class="text-center pt-8 pb-10 border-b border-gray-800 mb-10 sm:mb-12 fade-in-up">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Check Your Digital Dependency?</h3>
+                    <p class="text-gray-400 mb-5 text-sm sm:text-base">
+                        This self-test is not a diagnosis—but it can be a wake-up call.
+                    </p>
                     <button onclick="showPage('quiz')"
-                            class="bg-amber-600 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-full shadow-xl transition transform hover:scale-105 active:scale-95 text-xl">
-                        📝 Take the Mobile Addiction Test
+                            class="primary-btn text-gray-900 font-bold py-3 px-8 rounded-full shadow-xl text-base sm:text-lg flex items-center gap-2 mx-auto">
+                        🧠 Start the Self-Check
                     </button>
                 </div>
 
                 <!-- Contact Details & WhatsApp on Home Page -->
-                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto fade-in-up">
                     <!-- Contact Details -->
-                    <div class="card p-6 rounded-xl shadow-xl">
+                    <div class="card hover-card p-6 rounded-2xl shadow-xl">
                         <h3 class="text-2xl font-semibold text-white mb-4 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2 text-amber-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -210,11 +357,14 @@
                                 <span class="font-bold text-amber-400">Phone:</span> 
                                 <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
                             </p>
+                            <p class="text-xs text-gray-500 pt-1">
+                                You’re not alone. Reaching out is a sign of strength, not weakness. 💙
+                            </p>
                         </div>
                     </div>
 
                     <!-- WhatsApp Channel -->
-                    <div class="card p-6 rounded-xl shadow-xl">
+                    <div class="card hover-card p-6 rounded-2xl shadow-xl">
                         <div class="flex items-center mb-4">
                             <div class="whatsapp-icon animate-pulse-icon">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
@@ -230,15 +380,16 @@
                         </a>
                     </div>
                 </div>
-                
             </section>
 
             <!-- Quiz Page -->
             <section id="quiz-page" class="page-content hidden">
-                <h1 class="text-4xl font-extrabold text-white mb-8 border-b border-gray-700 pb-4">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 sm:mb-8 border-b border-gray-700 pb-4">
                     Self-Check: Mobile/Social Media Addiction Test
                 </h1>
-                <p class="text-lg text-gray-400 mb-8">Select the option that best describes your behavior. Options C and D indicate higher levels of digital dependency.</p>
+                <p class="text-base sm:text-lg text-gray-300 mb-8">
+                    Select the option that best describes your behavior. Options <span class="font-semibold text-amber-300">C</span> and <span class="font-semibold text-amber-300">D</span> indicate higher levels of digital dependency.
+                </p>
                 
                 <form id="addiction-quiz" class="space-y-8">
                     <!-- Questions will be dynamically inserted here -->
@@ -246,14 +397,14 @@
 
                 <div class="mt-10 pt-6 border-t border-gray-700 flex justify-end">
                     <button id="submit-quiz-btn" onclick="submitQuiz()"
-                            class="bg-amber-600 hover:bg-amber-500 text-gray-900 font-bold py-3 px-8 rounded-lg shadow-xl transition transform hover:scale-[1.02] active:scale-[0.98]">
+                            class="primary-btn text-gray-900 font-bold py-3 px-8 rounded-lg shadow-xl text-base sm:text-lg flex items-center gap-2">
                         Submit My Results
                     </button>
                 </div>
 
                 <!-- Result Display -->
-                <div id="quiz-result" class="hidden mt-12 p-8 card rounded-xl shadow-2xl">
-                    <h2 class="text-3xl font-bold text-white mb-4 border-b border-gray-600 pb-2">Your Test Summary</h2>
+                <div id="quiz-result" class="hidden mt-10 sm:mt-12 p-8 card rounded-2xl shadow-2xl">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 border-b border-gray-600 pb-2">Your Test Summary</h2>
                     <div id="summary-details" class="text-lg text-gray-300 grid grid-cols-2 gap-4">
                         <!-- Summary details here -->
                     </div>
@@ -264,80 +415,87 @@
                     </div>
 
                     <!-- Attractive Call to Action (Appears for high risk) -->
-                    <div id="seek-help-cta" class="hidden mt-8 p-6 rounded-xl bg-blue-800/30 border-2 border-blue-500 shadow-2xl text-center">
-                        <h3 class="text-3xl font-bold text-blue-300 mb-2">🔥 Time to Take Back Control! 🔥</h3>
-                        <p class="text-lg text-white mb-6">
+                    <div id="seek-help-cta" class="hidden mt-8 p-6 rounded-2xl bg-blue-800/40 border-2 border-blue-500 shadow-2xl text-center">
+                        <h3 class="text-2xl sm:text-3xl font-bold text-blue-300 mb-2">🔥 Time to Take Back Control! 🔥</h3>
+                        <p class="text-base sm:text-lg text-white mb-6">
                             Don't wait for the digital world to consume your real life. <span class="font-bold text-amber-300">Your next step starts now.</span>
                         </p>
                         <button onclick="showPage('contact')"
-                                class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 active:scale-95 text-lg shadow-lg">
+                                class="primary-btn bg-gradient-to-r from-blue-500 via-sky-500 to-indigo-500 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105 active:scale-95 text-base sm:text-lg shadow-lg">
                             💬 Seek Help & Get a Detox Plan
                         </button>
                     </div>
 
                     <div class="mt-6 text-center">
-                        <button onclick="showPage('home')" class="text-amber-500 hover:text-amber-400 transition">← Back to Home</button>
+                        <button onclick="showPage('home')" class="text-amber-400 hover:text-amber-300 transition text-sm sm:text-base">← Back to Home</button>
                     </div>
                 </div>
             </section>
 
             <!-- Contact Page: Form and Details -->
             <section id="contact-page" class="page-content hidden">
-                <div class="text-center mb-12">
-                    <h1 class="text-5xl font-extrabold text-white mb-4">Connect With Our Team</h1>
-                    <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                <div class="text-center mb-10 sm:mb-12">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4">Connect With Our Team</h1>
+                    <p class="text-base sm:text-xl text-gray-300 max-w-3xl mx-auto">
                         Whether you need professional advice, want to schedule a detox consultation, or have general questions, please reach out. We ensure complete confidentiality.
                     </p>
                 </div>
 
                 <div class="grid lg:grid-cols-3 gap-8">
                     <!-- Contact Form (2/3 width on desktop) -->
-                    <div class="lg:col-span-2 card p-8 rounded-xl shadow-2xl">
-                        <h2 class="text-3xl font-bold text-amber-500 mb-6 border-b border-gray-700 pb-3">Send Us Your Inquiry</h2>
+                    <div class="lg:col-span-2 card hover-card p-6 sm:p-8 rounded-2xl shadow-2xl">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-amber-500 mb-6 border-b border-gray-700 pb-3">Send Us Your Inquiry</h2>
                         
-                        <!-- CONTACT FORM → now sending to Google Apps Script -->
+                        <!-- CONTACT FORM → sending to Google Apps Script -->
                         <form id="contact-form" onsubmit="submitToGoogleSheet(event)">
                             
                             <!-- Name and Email -->
                             <div class="grid sm:grid-cols-2 gap-6">
                                 <div>
-                                    <label for="name" class="form-label">Full Name</label>
+                                    <label for="name" class="form-label">Full Name <span class="text-red-400">*</span></label>
                                     <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
                                 </div>
                                 <div>
-                                    <label for="email" class="form-label">Email Address (Reply To)</label>
+                                    <label for="email" class="form-label">Email Address <span class="text-red-400">*</span></label>
+                                    <!-- NOTE: keep name="_replyto" for your sheet & Apps Script -->
                                     <input type="email" id="email" name="_replyto" class="form-input" placeholder="name@example.com" required>
+                                    <p class="mt-1 text-xs text-gray-500">We’ll reply to you at this email.</p>
                                 </div>
                             </div>
                             
                             <!-- Phone and Subject -->
-                            <div class="grid sm:grid-cols-2 gap-6">
+                            <div class="grid sm:grid-cols-2 gap-6 mt-6">
                                 <div>
-                                    <label for="phone" class="form-label">Phone Number (Optional)</label>
-                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="(123) 456-7890">
+                                    <label for="phone" class="form-label">Phone Number <span class="text-red-400">*</span></label>
+                                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98XXXXXXXX" required>
                                 </div>
                                 <div>
-                                    <label for="subject" class="form-label">Subject</label>
+                                    <label for="subject" class="form-label">Subject <span class="text-red-400">*</span></label>
                                     <select id="subject" name="subject" class="form-input" required>
-                                        <option value="" disabled selected>Select a reason for contact</option>
-                                        <option value="detox-consultation">Digital Detox Consultation</option>
-                                        <option value="quiz-followup">Quiz Results Follow-up</option>
-                                        <option value="general-inquiry">General Inquiry</option>
-                                        <option value="media-request">Media/Press Request</option>
+                                                <option value="" disabled selected>Select a reason for contact</option>
+                                                <option value="detox-consultation">Digital Detox Consultation</option>
+                                                <option value="mobile-addiction">Mobile / Social Media / Reels Addiction</option>
+                                                <option value="teen-mobile-addiction">Teen Mobile Addiction</option>
+                                                <option value="kids-screen-issue">Kids Screen Issue</option>
+                                                <option value="screen-time-concern">Screen Time / Focus Concern</option>
+                                                <option value="quiz-followup">Quiz Results Follow-up</option>
+                                                <option value="general-inquiry">General Inquiry</option>
+                                                <option value="media-request">Media / Press Request</option>
                                     </select>
                                 </div>
                             </div>
 
                             <!-- Message -->
-                            <div>
-                                <label for="message" class="form-label">Your Message / Query</label>
+                            <div class="mt-6">
+                                <label for="message" class="form-label">Your Message / Query <span class="text-red-400">*</span></label>
                                 <textarea id="message" name="message" rows="5" class="form-input" placeholder="Describe your concerns or request in detail..." required></textarea>
                             </div>
 
                             <!-- Submission Button -->
-                            <button type="submit"
-                                    class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-6 rounded-lg transition transform hover:scale-[1.01] active:scale-95 text-lg shadow-xl">
-                                Send Message (Completely Confidential)
+                            <button id="contact-submit-btn" type="submit"
+                                    class="mt-6 w-full primary-btn text-white font-bold py-3 px-6 rounded-lg text-base sm:text-lg shadow-xl flex items-center justify-center gap-2">
+                                <span id="contact-submit-text">Send Message (Completely Confidential)</span>
+                                <span id="contact-loading-spinner" class="hidden h-4 w-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></span>
                             </button>
 
                             <div id="form-feedback" class="mt-4 p-3 rounded-lg text-center hidden"></div>
@@ -347,7 +505,7 @@
                     <!-- Contact Details (1/3 width on desktop) -->
                     <div class="lg:col-span-1 space-y-8">
                         <!-- Direct Contact Block -->
-                        <div class="card p-6 rounded-xl shadow-xl">
+                        <div class="card hover-card p-6 rounded-2xl shadow-xl">
                             <h3 class="text-2xl font-semibold text-white mb-4 flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6 mr-2 text-amber-500">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
@@ -363,11 +521,14 @@
                                     <span class="font-bold text-amber-400">Phone:</span> 
                                     <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
                                 </p>
+                                <p class="text-xs text-gray-500 pt-1">
+                                    If you’re in crisis, please also contact local mental health or emergency services in your area.
+                                </p>
                             </div>
                         </div>
 
                         <!-- WhatsApp Block -->
-                        <div class="card p-6 rounded-xl shadow-xl">
+                        <div class="card hover-card p-6 rounded-2xl shadow-xl">
                             <div class="flex items-center mb-4">
                                 <div class="whatsapp-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
@@ -379,8 +540,8 @@
                             </p>
                             <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
-                            Join Channel
-                        </a>
+                                Join Channel
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -389,12 +550,37 @@
         </main>
 
         <!-- Footer -->
-        <footer class="card mt-12 py-6 border-t border-gray-800 text-center text-gray-500 text-sm">
+        <footer class="card mt-12 py-6 border-t border-gray-800 text-center text-gray-500 text-xs sm:text-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <p>&copy; 2024 Digital Detox Initiative. All rights reserved. | <a href="#" onclick="showPage('contact')" class="hover:text-amber-500">Resources</a></p>
             </div>
         </footer>
     </div>
+
+    <!-- ✨ Success Modal (delight popup) -->
+    <div id="success-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div class="card max-w-md w-[90%] rounded-2xl shadow-2xl border border-amber-500/40 p-8 modal-pop text-center">
+            <div class="text-4xl mb-3">🎉</div>
+            <h3 class="text-2xl font-bold text-white mb-2">
+                Thank you, <span id="success-name" class="text-amber-400">Friend</span>!
+            </h3>
+            <p class="text-gray-300 mb-6">
+                Your message has been safely received. We’ll get back to you as soon as we can. 💙
+            </p>
+            <button onclick="closeSuccessModal()"
+                    class="primary-btn bg-gradient-to-r from-amber-400 via-amber-500 to-amber-300 text-gray-900 font-semibold py-2.5 px-6 rounded-full shadow-md transition">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- 🔼 Scroll-to-top button -->
+    <button id="scroll-top-btn"
+            class="fixed bottom-6 right-6 z-40 rounded-full bg-slate-900/80 border border-slate-600 shadow-lg p-3 text-slate-100 hover:bg-slate-800 hover:border-amber-400 hidden-btn"
+            onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+            aria-label="Scroll to top">
+        ⬆
+    </button>
 
     <script>
         // --- Navigation Logic ---
@@ -416,6 +602,28 @@
             });
             window.scrollTo(0, 0); // Scroll to top on page change
         }
+
+        function scrollToAbout(event) {
+            event.preventDefault();
+            showPage('home');
+            const aboutSection = document.getElementById('about-us-page');
+            if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // --- Scroll to top button visibility ---
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
+        window.addEventListener('scroll', () => {
+            if (!scrollTopBtn) return;
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.remove('hidden-btn');
+                scrollTopBtn.classList.add('visible-btn');
+            } else {
+                scrollTopBtn.classList.add('hidden-btn');
+                scrollTopBtn.classList.remove('visible-btn');
+            }
+        });
 
         // --- Quiz Data and Logic ---
         const quizQuestions = [
@@ -563,15 +771,15 @@
                 const qNum = index + 1;
                 
                 const questionDiv = document.createElement('div');
-                questionDiv.className = 'card p-6 rounded-xl shadow-lg';
+                questionDiv.className = 'card hover-card p-6 rounded-2xl shadow-lg';
                 questionDiv.innerHTML = `
-                    <p class="text-xl font-semibold mb-4 text-amber-400">Q${qNum}: ${qData.q}</p>
+                    <p class="text-lg sm:text-xl font-semibold mb-4 text-amber-400">Q${qNum}: ${qData.q}</p>
                     <div class="space-y-3">
                         ${qData.options.map(option => `
-                            <label class="flex items-start p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700 transition">
+                            <label class="flex items-start p-3 bg-gray-900/60 rounded-xl cursor-pointer hover:bg-gray-800/80 transition border border-slate-700/70">
                                 <input type="radio" name="q${qNum}" value="${option.value}" required
                                        class="mt-1 h-5 w-5 text-amber-500 focus:ring-amber-500 border-gray-600 bg-gray-900">
-                                <span class="ml-3 text-gray-200">${option.label}</span>
+                                <span class="ml-3 text-gray-200 text-sm sm:text-base">${option.label}</span>
                             </label>
                         `).join('')}
                     </div>
@@ -589,7 +797,10 @@
 
             // Reset visibility
             seekHelpCta.classList.add('hidden');
-            document.getElementById('form-feedback').classList.add('hidden'); // Hide any previous feedback
+            const feedbackDiv = document.getElementById('form-feedback');
+            if (feedbackDiv) {
+                feedbackDiv.classList.add('hidden'); // Hide any previous contact feedback
+            }
 
             // Check if all questions are answered
             let allAnswered = true;
@@ -604,7 +815,6 @@
             }
 
             if (!allAnswered) {
-                // Use a simple, non-alert message box for feedback
                 finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-red-800/30 text-red-300 border-red-500';
                 finalWarning.innerHTML = '🛑 Please answer all questions before submitting the test.';
                 resultDiv.classList.remove('hidden');
@@ -623,10 +833,10 @@
             
             // 2. Display summary
             summaryDetails.innerHTML = `
-                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">A Selections:</span> ${score.A}</div>
-                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">B Selections:</span> ${score.B}</div>
-                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">C Selections:</span> ${score.C}</div>
-                <div class="p-2 rounded-md bg-gray-700/50"><span class="font-bold text-amber-400">D Selections:</span> ${score.D}</div>
+                <div class="p-2 rounded-md bg-gray-800/60"><span class="font-bold text-amber-400">A Selections:</span> ${score.A}</div>
+                <div class="p-2 rounded-md bg-gray-800/60"><span class="font-bold text-amber-400">B Selections:</span> ${score.B}</div>
+                <div class="p-2 rounded-md bg-gray-800/60"><span class="font-bold text-amber-400">C Selections:</span> ${score.C}</div>
+                <div class="p-2 rounded-md bg-gray-800/60"><span class="font-bold text-amber-400">D Selections:</span> ${score.D}</div>
                 <div class="col-span-2 p-2 rounded-md bg-amber-900/40 font-bold text-xl text-amber-300">Total High-Risk (C+D): ${totalCD} / ${quizQuestions.length}</div>
             `;
 
@@ -636,19 +846,19 @@
                 finalWarning.innerHTML = `
                     <div class="flex items-center space-x-3">
                         <span class="text-4xl animate-subtle-shake">🚨</span>
-                        <span>**CRITICAL WARNING:** You may be highly addicted to mobile/social media.</span>
+                        <span><strong>CRITICAL WARNING:</strong> You may be highly addicted to mobile/social media.</span>
                     </div>
-                    <p class="mt-2 text-base text-gray-300">Your results indicate a strong, potentially problematic dependency. It's time to take serious action to protect your mental health and relationships.</p>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Your results indicate a strong, potentially problematic dependency. It's time to take serious action to protect your mental health and relationships.</p>
                 `;
-                seekHelpCta.classList.remove('hidden'); // Show the attractive CTA
+                seekHelpCta.classList.remove('hidden'); // Show CTA
             } else if (totalCD >= 5) {
                  finalWarning.className = 'mt-6 p-4 rounded-lg text-xl font-semibold border-l-4 bg-yellow-800/30 text-yellow-300 border-yellow-500';
                  finalWarning.innerHTML = `
                     <div class="flex items-center space-x-3">
                         <span class="text-3xl">💡</span>
-                        <span>**NOTE:** You show moderate signs of dependency.</span>
+                        <span><strong>NOTE:</strong> You show moderate signs of dependency.</span>
                     </div>
-                    <p class="mt-2 text-base text-gray-300">You exhibit some concerning usage patterns. Consider setting stricter screen limits and being more mindful of your device usage before it progresses.</p>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">You exhibit some concerning usage patterns. Consider setting stricter screen limits and being more mindful of your device usage before it progresses.</p>
                 `;
             }
             else {
@@ -656,9 +866,9 @@
                 finalWarning.innerHTML = `
                     <div class="flex items-center space-x-3">
                         <span class="text-3xl">✅</span>
-                        <span>**RESULT:** Healthy Digital Balance.</span>
+                        <span><strong>RESULT:</strong> Healthy Digital Balance.</span>
                     </div>
-                    <p class="mt-2 text-base text-gray-300">Your usage appears to be balanced and mindful. Keep up the great work in maintaining a healthy relationship with technology!</p>
+                    <p class="mt-2 text-sm sm:text-base text-gray-300">Your usage appears to be balanced and mindful. Keep up the great work in maintaining a healthy relationship with technology!</p>
                 `;
             }
 
@@ -677,32 +887,88 @@
 
             const form = event.target;
             const feedbackDiv = document.getElementById('form-feedback');
+            const submitBtn = document.getElementById('contact-submit-btn');
+            const submitText = document.getElementById('contact-submit-text');
+            const spinner = document.getElementById('contact-loading-spinner');
 
             // Show "sending..." message
             feedbackDiv.classList.remove('hidden');
             feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
             feedbackDiv.innerHTML = 'Sending your message... Please wait...';
 
-            // Convert FormData -> URLSearchParams so Apps Script gets e.parameter correctly
+            // Button loading state
+            if (submitBtn && submitText && spinner) {
+                submitBtn.disabled = true;
+                submitBtn.classList.add('opacity-90', 'cursor-not-allowed');
+                submitText.textContent = 'Sending...';
+                spinner.classList.remove('hidden');
+            }
+
             const formData = new FormData(form);
-            const payload = new URLSearchParams(formData);
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    body: payload,
-                    mode: 'no-cors' // we don't need to read the response, just send
+                    body: formData,
+                    mode: 'no-cors' // we don't need to read the response, just send data
                 });
 
-                // Show success message
+                // Get name before reset
+                const nameValue = (form.querySelector('#name')?.value || '').trim() || 'Friend';
+
+                // Show success message in the small banner
                 feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
                 feedbackDiv.innerHTML = '🎉 Success! Your message has been stored. We will get back to you soon.';
+
+                // Reset form
                 form.reset();
+
+                // Reset button state
+                if (submitBtn && submitText && spinner) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-90', 'cursor-not-allowed');
+                    submitText.textContent = 'Send Message (Completely Confidential)';
+                    spinner.classList.add('hidden');
+                }
+
+                // Show the delight popup
+                showSuccessModal(nameValue);
+
             } catch (error) {
                 console.error(error);
                 feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
                 feedbackDiv.innerHTML = '❌ Something went wrong. Please try again later.';
+
+                if (submitBtn && submitText && spinner) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('opacity-90', 'cursor-not-allowed');
+                    submitText.textContent = 'Send Message (Completely Confidential)';
+                    spinner.classList.add('hidden');
+                }
             }
+        }
+
+        function showSuccessModal(name) {
+            const modal = document.getElementById('success-modal');
+            const nameSpan = document.getElementById('success-name');
+            if (nameSpan) {
+                nameSpan.textContent = name;
+            }
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            // Auto-close after 6 seconds if user doesn't click
+            setTimeout(() => {
+                if (!modal.classList.contains('hidden')) {
+                    closeSuccessModal();
+                }
+            }, 6000);
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
     </script>
 </body>
