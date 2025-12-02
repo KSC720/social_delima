@@ -295,24 +295,17 @@
                     <div class="lg:col-span-2 card p-8 rounded-xl shadow-2xl">
                         <h2 class="text-3xl font-bold text-amber-500 mb-6 border-b border-gray-700 pb-3">Send Us Your Inquiry</h2>
                         
-                        <!-- CRITICAL: Updated action with user's new email -->
-                        <form id="contact-form" action="https://formsubmit.co/suryasevanthi.socialdelima@gmail.com" method="POST" onsubmit="handleFormSubmission(event)">
+                        <!-- CONTACT FORM → now sending to Google Apps Script -->
+                        <form id="contact-form" onsubmit="submitToGoogleSheet(event)">
                             
-                            <!-- HIDDEN FIELDS REQUIRED BY FORMSUBMIT -->
-                            <input type="hidden" name="_subject" value="New Digital Detox Inquiry from Website">
-                            <!-- Optional: Redirects the user back to the contact page after submission instead of the default FormSubmit page -->
-                            <input type="hidden" name="_next" value="http://127.0.0.1:5500/index.html?contact-submitted=true"> 
-
                             <!-- Name and Email -->
                             <div class="grid sm:grid-cols-2 gap-6">
                                 <div>
                                     <label for="name" class="form-label">Full Name</label>
-                                    <!-- name="name" is important for the receiving email -->
                                     <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name" required>
                                 </div>
                                 <div>
                                     <label for="email" class="form-label">Email Address (Reply To)</label>
-                                    <!-- name="_replyto" tells FormSubmit where to reply -->
                                     <input type="email" id="email" name="_replyto" class="form-input" placeholder="name@example.com" required>
                                 </div>
                             </div>
@@ -386,8 +379,8 @@
                             </p>
                             <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12.038 10.607c-.777 0-1.408.625-1.432 1.385l-.014.286c-.032 1.34.832 2.502 2.073 2.768l.192.04c.828.175 1.579.52 2.21 1.053l.317.261.272.22c.631.533 1.382.878 2.21 1.053l.192.04c.006.001.011.002.017.002.164.03.332.05.501.05h.001a4.01 4.01 0 0 0 4-4c0-.994-.393-1.954-1.09-2.651-.703-.69-1.66-.884-2.66-.583l-.155.053c-.702.24-1.294.62-1.77.854l-.062.03c-.22.106-.444.17-.676.195l-.062.006c-.027.003-.054.005-.081.006-.007 0-.014-.001-.02-.001-.019 0-.038-.002-.057-.005l-.062-.01c-.16-.024-.316-.065-.47-.123l-.154-.06c-.663-.255-1.39-.427-2.16-.49l-.08-.006c-.035 0-.07-.001-.105-.001zM12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-4.314 17.514c-.035.034-.07.067-.105.099l-.317.294c-.218.2-.444.372-.676.516l-.272.167c-.232.144-.471.265-.717.362l-.337.135c-.247.097-.5.176-.757.238l-.403.097c-.01.002-.02.004-.03.006-.03.007-.06.012-.09.017l-.146.02-.095.008c-.287.025-.579.038-.87.038-.3 0-.6-.009-.89-.028l-.29-.015c-1.12-.05-2.18-.242-3.15-.568l-.426-.142-.363-.13-.39-.148c-.97-.37-1.87-.84-2.67-1.42l-.294-.216-.328-.246c-.732-.547-1.38-1.187-1.92-1.93l-.226-.316-.25-.365c-.547-.732-.987-1.558-1.27-2.434l-.096-.3c-.07-.22-.113-.448-.135-.68l-.007-.07c0-.28-.01-.56-.02-.83l-.002-.27c0-2.316.896-4.526 2.518-6.148 1.623-1.623 3.834-2.518 6.15-2.518s4.527.895 6.15 2.518c1.623 1.622 2.518 3.832 2.518 6.148 0 1.258-.28 2.476-.816 3.585l-.26.544c-.547 1.14-1.34 2.14-2.36 3.01l-.22.185c-.2.17-.412.33-.637.472l-.36.257c-.225.142-.462.274-.71.392l-.324.155c-.248.117-.5.213-.757.29l-.357.102c-.257.077-.52.138-.79.18l-.34.053c-.27.042-.544.067-.82.074l-.27.007c-.28.007-.56.007-.84.007z"/></svg>
-                                Join Channel
-                            </a>
+                            Join Channel
+                        </a>
                         </div>
                     </div>
                 </div>
@@ -410,18 +403,7 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             renderQuiz();
-            // Check for URL parameter indicating a successful form submission
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('contact-submitted') === 'true') {
-                showPage('contact');
-                const feedbackDiv = document.getElementById('form-feedback');
-                feedbackDiv.classList.remove('hidden');
-                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
-                feedbackDiv.innerHTML = '🎉 Success! Your message has been sent. We will get back to you within 24 hours (Check your inbox for a verification email if this is your first submission!).';
-                history.replaceState(null, '', window.location.pathname); // Clean up the URL
-            } else {
-                showPage('home');
-            }
+            showPage('home');
         });
 
         function showPage(pageId) {
@@ -435,7 +417,7 @@
             window.scrollTo(0, 0); // Scroll to top on page change
         }
 
-        // --- Quiz Data and Logic (unchanged) ---
+        // --- Quiz Data and Logic ---
         const quizQuestions = [
             {
                 q: "How often do you check your phone within 5 minutes of waking up?",
@@ -687,15 +669,40 @@
             resultDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- Contact Form Submission Handler (Updated for FormSubmit) ---
-        function handleFormSubmission(event) {
+        // --- Contact Form Submission Handler (Google Sheet + Apps Script) ---
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMdtbwzI4ECiPQ4NYoRERyNla-SDXwwxHHgW0BsmbdNl3ZKB7v4DQVeyvH0J2w7BI4hw/exec';
+
+        async function submitToGoogleSheet(event) {
+            event.preventDefault(); // stop normal form submit
+
             const form = event.target;
             const feedbackDiv = document.getElementById('form-feedback');
-            
-            // Allow the browser to proceed with the POST request, but show a temporary message.
+
+            // Show "sending..." message
             feedbackDiv.classList.remove('hidden');
             feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
-            feedbackDiv.innerHTML = 'Sending your message... Please wait for a moment for the confirmation page.';
+            feedbackDiv.innerHTML = 'Sending your message... Please wait...';
+
+            // Convert FormData -> URLSearchParams so Apps Script gets e.parameter correctly
+            const formData = new FormData(form);
+            const payload = new URLSearchParams(formData);
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    body: payload,
+                    mode: 'no-cors' // we don't need to read the response, just send
+                });
+
+                // Show success message
+                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
+                feedbackDiv.innerHTML = '🎉 Success! Your message has been stored. We will get back to you soon.';
+                form.reset();
+            } catch (error) {
+                console.error(error);
+                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
+                feedbackDiv.innerHTML = '❌ Something went wrong. Please try again later.';
+            }
         }
     </script>
 </body>
