@@ -20,10 +20,16 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            color: #E5E7EB;
+            color: #0f172a; /* darker text for light areas */
             line-height: 1.6;
             overflow-x: hidden;
-            background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #020617 100%);
+            /* Soft sky → sand → deep navy for warmth + depth */
+            background: linear-gradient(
+                180deg,
+                #e0f2fe 0%,   /* light sky blue */
+                #fef3c7 38%,  /* warm sand */
+                #0f172a 100%  /* deep calming navy at bottom */
+            );
             background-attachment: fixed;
         }
 
@@ -33,10 +39,10 @@
             position: fixed;
             inset: -40%;
             background:
-                radial-gradient(circle at 10% 0%, rgba(251, 191, 36, 0.08) 0, transparent 45%),
-                radial-gradient(circle at 90% 20%, rgba(59, 130, 246, 0.09) 0, transparent 50%),
-                radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.04) 0, transparent 55%);
-            opacity: 0.9;
+                radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.20) 0, transparent 45%),   /* soft blue glow */
+                radial-gradient(circle at 90% 20%, rgba(251, 191, 36, 0.30) 0, transparent 50%),  /* warm amber/sand glow */
+                radial-gradient(circle at 50% 100%, rgba(59, 130, 246, 0.18) 0, transparent 55%); /* gentle deep blue */
+            opacity: 0.85;
             z-index: -1;
             animation: bg-orbit 40s linear infinite alternate;
         }
@@ -54,26 +60,38 @@
         ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
 
         .card {
-            background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.03) 0, rgba(15, 23, 42, 0.98) 45%, #020617 100%);
-            border: 1px solid rgba(15, 23, 42, 0.9);
+            /* Warm highlight at top, deep interior */
+            background: radial-gradient(
+                circle at top left,
+                rgba(254, 243, 199, 0.18) 0%,   /* sand highlight */
+                rgba(15, 23, 42, 0.96) 48%,     /* deep slate/navy */
+                rgba(8, 47, 73, 1) 100%         /* teal-ish depth */
+            );
+            border: 1px solid rgba(148, 163, 184, 0.55);
             box-shadow:
-              0 18px 45px rgba(0, 0, 0, 0.55),
-              0 0 0 1px rgba(15, 23, 42, 0.9);
+              0 18px 45px rgba(15, 23, 42, 0.75),
+              0 0 0 1px rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
             transition:
               transform 0.25s ease,
               box-shadow 0.25s ease,
               border-color 0.25s ease,
               background 0.25s ease;
+            color: #e5e7eb; /* light text inside cards */
         }
 
         .card.hover-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(245, 158, 11, 0.7);
+            border-color: rgba(245, 158, 11, 0.8);
             box-shadow:
-              0 22px 60px rgba(15, 23, 42, 0.9),
-              0 0 0 1px rgba(252, 211, 77, 0.35);
-            background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.1) 0, rgba(15, 23, 42, 1) 45%, #020617 100%);
+              0 26px 70px rgba(15, 23, 42, 0.9),
+              0 0 0 1px rgba(250, 204, 21, 0.45);
+            background: radial-gradient(
+                circle at top left,
+                rgba(254, 249, 195, 0.32) 0%,   /* brighter warm halo */
+                rgba(15, 23, 42, 0.98) 48%,
+                rgba(15, 23, 42, 1) 100%
+            );
         }
 
         .whatsapp-icon {
@@ -419,8 +437,8 @@
                 <!-- Hero -->
                 <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center fade-in-up">
                     <!-- Hero text -->
-                    <div class="space-y-4 sm:space-y-6">
-                        <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-xs sm:text-sm border border-emerald-500/30">
+                    <div class="space-y-4 sm:space-y-6 text-slate-100">
+                        <p class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-100 text-xs sm:text-sm border border-emerald-500/30">
                             <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
                             100% private · No judgment · Just help
                         </p>
@@ -430,7 +448,7 @@
                                 Break the Scroll.
                             </span>
                         </h1>
-                        <p class="text-base sm:text-lg md:text-xl text-gray-300 max-w-xl">
+                        <p class="text-base sm:text-lg md:text-xl text-slate-200 max-w-xl">
                             Instagram 📸, YouTube 🎧, Reels 🎥, WhatsApp 💬 — these apps are built to keep you hooked.
                             This space helps you pause, understand what’s really happening in your brain, and gently build
                             a calmer, healthier relationship with your phone.
@@ -443,13 +461,13 @@
                                 📝 Take the Mobile Addiction Test
                             </button>
                             <button onclick="showPage('contact')"
-                                    class="px-5 py-2.5 rounded-full border border-slate-600 text-xs sm:text-sm md:text-base text-slate-200 bg-slate-950/40 hover:border-amber-400 hover:text-amber-300 hover:bg-slate-900/80 transition flex items-center gap-2">
+                                    class="px-5 py-2.5 rounded-full border border-slate-600 text-xs sm:text-sm md:text-base text-slate-100 bg-slate-950/40 hover:border-amber-400 hover:text-amber-300 hover:bg-slate-900/80 transition flex items-center gap-2">
                                 💬 Talk to a human
                             </button>
                         </div>
 
                         <!-- Social app chips -->
-                        <div class="flex flex-wrap items-center gap-2 text-[0.7rem] sm:text-xs text-slate-400 pt-3">
+                        <div class="flex flex-wrap items-center gap-2 text-[0.7rem] sm:text-xs text-slate-200 pt-3">
                             <span class="px-2 py-1 rounded-full bg-slate-900/70 border border-slate-700/80 flex items-center gap-1">
                                 <span>📸</span><span>Instagram & Reels</span>
                             </span>
@@ -465,23 +483,23 @@
                         </div>
 
                         <!-- Hero stats -->
-                        <div class="grid grid-cols-3 gap-3 max-w-xs text-xs sm:text-sm text-slate-300 pt-4">
+                        <div class="grid grid-cols-3 gap-3 max-w-xs text-xs sm:text-sm text-slate-200 pt-4">
                             <div class="flex flex-col">
                                 <span class="text-lg sm:text-xl font-semibold text-amber-300">3 mins</span>
-                                <span class="text-slate-400">to finish the test</span>
+                                <span class="text-slate-200/80">to finish the test</span>
                             </div>
                             <div class="flex flex-col">
                                 <span class="text-lg sm:text-xl font-semibold text-emerald-300">0%</span>
-                                <span class="text-slate-400">public sharing</span>
+                                <span class="text-slate-200/80">public sharing</span>
                             </div>
                             <div class="flex flex-col">
                                 <span class="text-lg sm:text-xl font-semibold text-sky-300">24/7</span>
-                                <span class="text-slate-400">self-reflection</span>
+                                <span class="text-slate-200/80">self-reflection</span>
                             </div>
                         </div>
 
                         <!-- Scroll hint -->
-                        <div class="pt-4 flex items-center gap-3 text-xs text-slate-400">
+                        <div class="pt-4 flex items-center gap-3 text-xs text-slate-100">
                             <div class="scroll-indicator">
                                 <div class="scroll-indicator-dot"></div>
                             </div>
@@ -551,10 +569,10 @@
                         </svg>
                         What Is The Social Dilemma?
                     </h2>
-                    <p class="text-sm sm:text-base text-slate-400 mb-4">
+                    <p class="text-sm sm:text-base text-slate-300 mb-4">
                         Social media isn’t “just an app”. It’s a system designed to compete for your attention every waking minute.
                     </p>
-                    <ul class="space-y-4 text-base sm:text-lg text-gray-300">
+                    <ul class="space-y-4 text-base sm:text-lg text-slate-100">
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none animate-subtle-shake">📱😟</span>
                             <span>The Social Dilemma explains how social media platforms are engineered to influence our behavior and decisions.</span>
@@ -583,7 +601,7 @@
                         </svg>
                         How It Impacts Humans & Social Life
                     </h2>
-                    <ul class="space-y-4 text-base sm:text-lg text-gray-300">
+                    <ul class="space-y-4 text-base sm:text-lg text-slate-100">
                         <li class="flex items-start">
                             <span class="text-3xl mr-3 leading-none">😶‍🌫️</span>
                             <span><strong>Reduced real-life connection:</strong> Choosing screens over people leads to loneliness and emotional distance.</span>
@@ -610,32 +628,32 @@
                 <!-- Simple 3-step process section -->
                 <div class="card hover-card p-6 sm:p-8 rounded-2xl shadow-2xl">
                     <h3 class="text-2xl sm:text-3xl font-bold text-white mb-2">How This Page Helps You</h3>
-                    <p class="text-sm sm:text-base text-slate-400 mb-5">
+                    <p class="text-sm sm:text-base text-slate-300 mb-5">
                         You don’t have to quit your phone overnight. Start with small, honest reflection steps.
                     </p>
                     <div class="grid sm:grid-cols-3 gap-4">
                         <div class="rounded-2xl bg-slate-950/50 border border-slate-800/80 p-4 flex flex-col gap-2">
-                            <span class="text-xs uppercase tracking-wide text-slate-500">Step 1</span>
+                            <span class="text-xs uppercase tracking-wide text-slate-400">Step 1</span>
                             <p class="font-semibold text-amber-300 text-sm sm:text-base">Understand the trap</p>
-                            <p class="text-xs sm:text-sm text-slate-400">Learn how social media pulls you into endless scrolling without you noticing.</p>
+                            <p class="text-xs sm:text-sm text-slate-300">Learn how social media pulls you into endless scrolling without you noticing.</p>
                         </div>
                         <div class="rounded-2xl bg-slate-950/70 border border-slate-700 p-4 flex flex-col gap-2">
-                            <span class="text-xs uppercase tracking-wide text-slate-500">Step 2</span>
+                            <span class="text-xs uppercase tracking-wide text-slate-400">Step 2</span>
                             <p class="font-semibold text-amber-300 text-sm sm:text-base">Take the self-test</p>
-                            <p class="text-xs sm:text-sm text-slate-400">Get a realistic snapshot of your current digital dependency level.</p>
+                            <p class="text-xs sm:text-sm text-slate-300">Get a realistic snapshot of your current digital dependency level.</p>
                         </div>
                         <div class="rounded-2xl bg-slate-950/50 border border-slate-800/80 p-4 flex flex-col gap-2">
-                            <span class="text-xs uppercase tracking-wide text-slate-500">Step 3</span>
+                            <span class="text-xs uppercase tracking-wide text-slate-400">Step 3</span>
                             <p class="font-semibold text-amber-300 text-sm sm:text-base">Reach out for support</p>
-                            <p class="text-xs sm:text-sm text-slate-400">If your results are high, we help you design a detox plan that fits your life.</p>
+                            <p class="text-xs sm:text-sm text-slate-300">If your results are high, we help you design a detox plan that fits your life.</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Call to Action: Addiction Test -->
-                <div class="text-center pt-8 pb-10 border-y border-gray-800/70">
+                <div class="text-center pt-8 pb-10 border-y border-gray-800/70 text-slate-100">
                     <h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">Ready to Check Your Digital Dependency?</h3>
-                    <p class="text-gray-400 mb-5 text-sm sm:text-base max-w-xl mx-auto">
+                    <p class="text-slate-200 mb-5 text-sm sm:text-base max-w-xl mx-auto">
                         This self-test is not a diagnosis—but it can be a powerful wake-up call and the first step to changing your habits.
                     </p>
                     <button onclick="showPage('quiz')"
@@ -655,15 +673,15 @@
                             Need Immediate Support?
                         </h3>
                         <div class="space-y-3 text-base">
-                            <p class="text-gray-300">
+                            <p class="text-slate-100">
                                 <span class="font-bold text-amber-300">Email:</span> 
                                 <a href="mailto:suryasevanthi.socialdelima@gmail.com" class="hover:underline">suryasevanthi.socialdelima@gmail.com</a>
                             </p>
-                            <p class="text-gray-300">
+                            <p class="text-slate-100">
                                 <span class="font-bold text-amber-300">Phone:</span> 
                                 <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
                             </p>
-                            <p class="text-xs text-gray-500 pt-1">
+                            <p class="text-xs text-slate-300 pt-1">
                                 You’re not alone. Reaching out is a sign of strength, not weakness. 💙
                             </p>
                         </div>
@@ -677,7 +695,7 @@
                             </div>
                             <h3 class="text-2xl font-semibold text-white ml-3">Join Our WhatsApp Channel</h3>
                         </div>
-                        <p class="text-gray-400 mb-4">
+                        <p class="text-slate-200 mb-4">
                             Receive daily tips, mindful challenges, and resources for a healthier digital life. Join our community for real-time support!
                         </p>
                         <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
@@ -690,12 +708,23 @@
 
             <!-- Quiz Page -->
             <section id="quiz-page" class="page-content hidden">
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 sm:mb-8 border-b border-gray-700 pb-4">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-white mb-6 sm:mb-4 border-b border-gray-700 pb-4">
                     Self-Check: Mobile/Social Media Addiction Test
                 </h1>
-                <p class="text-base sm:text-lg text-gray-300 mb-8">
+                <p class="text-base sm:text-lg text-slate-200 mb-4">
                     Select the option that best describes your behavior. Options <span class="font-semibold text-amber-300">C</span> and <span class="font-semibold text-amber-300">D</span> indicate higher levels of digital dependency.
                 </p>
+
+                <!-- Global quiz progress bar -->
+                <div id="quiz-progress-container" class="mb-8">
+                    <div class="flex justify-between items-center text-xs sm:text-sm text-slate-200 mb-1">
+                        <span id="quiz-progress-label">0 of 20 answered</span>
+                        <span id="quiz-progress-percent">0%</span>
+                    </div>
+                    <div class="h-2 rounded-full bg-slate-800/60 overflow-hidden">
+                        <div id="quiz-progress-bar" class="h-full w-0 bg-gradient-to-r from-emerald-400 via-amber-400 to-orange-500 transition-all duration-300 ease-out"></div>
+                    </div>
+                </div>
                 
                 <form id="addiction-quiz" class="space-y-8">
                     <!-- Questions will be dynamically inserted here -->
@@ -711,7 +740,7 @@
                 <!-- Result Display -->
                 <div id="quiz-result" class="hidden mt-10 sm:mt-12 p-8 card rounded-2xl shadow-2xl">
                     <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4 border-b border-gray-600 pb-2">Your Test Summary</h2>
-                    <div id="summary-details" class="text-lg text-gray-300 grid grid-cols-2 gap-4">
+                    <div id="summary-details" class="text-lg text-gray-100 grid grid-cols-2 gap-4">
                         <!-- Summary details here -->
                     </div>
                     
@@ -740,9 +769,9 @@
 
             <!-- Contact Page: Form and Details -->
             <section id="contact-page" class="page-content hidden">
-                <div class="text-center mb-10 sm:mb-12">
+                <div class="text-center mb-10 sm:mb-12 text-slate-100">
                     <h1 class="text-4xl sm:text-5xl font-extrabold text-white mb-4">Connect With Our Team</h1>
-                    <p class="text-base sm:text-xl text-gray-300 max-w-3xl mx-auto">
+                    <p class="text-base sm:text-xl text-slate-200 max-w-3xl mx-auto">
                         Whether you need professional advice, want to schedule a detox consultation, or have general questions, please reach out. We ensure complete confidentiality.
                     </p>
                 </div>
@@ -765,7 +794,7 @@
                                     <label for="email" class="form-label">Email Address <span class="text-red-400">*</span></label>
                                     <!-- NOTE: keep name="_replyto" for your sheet & Apps Script -->
                                     <input type="email" id="email" name="_replyto" class="form-input" placeholder="name@example.com" required>
-                                    <p class="mt-1 text-xs text-gray-500">We’ll reply to you at this email.</p>
+                                    <p class="mt-1 text-xs text-gray-400">We’ll reply to you at this email.</p>
                                 </div>
                             </div>
                             
@@ -819,15 +848,15 @@
                                 Direct Contact
                             </h3>
                             <div class="space-y-3 text-base">
-                                <p class="text-gray-300">
+                                <p class="text-slate-100">
                                     <span class="font-bold text-amber-300">Email:</span> 
                                     <a href="mailto:suryasevanthi.socialdelima@gmail.com" class="hover:underline">suryasevanthi.socialdelima@gmail.com</a>
                                 </p>
-                                <p class="text-gray-300">
+                                <p class="text-slate-100">
                                     <span class="font-bold text-amber-300">Phone:</span> 
                                     <a href="tel:+919886999720" class="hover:underline">+91 9886999720</a>
                                 </p>
-                                <p class="text-xs text-gray-500 pt-1">
+                                <p class="text-xs text-slate-300 pt-1">
                                     If you’re in crisis, please also contact local mental health or emergency services in your area.
                                 </p>
                             </div>
@@ -841,7 +870,7 @@
                                 </div>
                                 <h3 class="text-2xl font-semibold text-white ml-3">Join Our WhatsApp Channel</h3>
                             </div>
-                            <p class="text-gray-400 mb-4">
+                            <p class="text-slate-200 mb-4">
                                 Get daily tips and mindful challenges directly.
                             </p>
                             <a href="https://www.whatsapp.com/channel/0029VbBa3IP7YScyjqXOa83P" target="_blank" class="w-full inline-flex items-center justify-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
@@ -856,7 +885,7 @@
         </main>
 
         <!-- Footer -->
-        <footer class="card mt-12 py-6 border-t border-gray-800 text-center text-gray-500 text-xs sm:text-sm">
+        <footer class="card mt-12 py-6 border-t border-gray-800 text-center text-gray-300 text-xs sm:text-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <p>&copy; 2024 Digital Detox Initiative. All rights reserved. | <button onclick="showPage('contact')" class="hover:text-amber-400">Resources</button></p>
             </div>
@@ -870,10 +899,10 @@
             <h3 class="text-2xl font-bold text-white mb-2">
                 Thank you, <span id="success-name" class="text-amber-400">Friend</span>!
             </h3>
-            <p class="text-gray-300 mb-3">
+            <p class="text-gray-200 mb-3">
                 Your message has been safely received and will be read by a real person from our Digital Detox team — not a bot.
             </p>
-            <p class="text-gray-400 text-sm mb-5">
+            <p class="text-gray-300 text-sm mb-5">
                 We’ll respond to you privately with next steps and suggestions tailored to your situation.
                 If things feel very heavy or urgent right now, please also reach out to trusted people around you
                 or local mental health / emergency services. You don’t have to handle this alone. 💙
@@ -902,6 +931,7 @@
         // --- Navigation / Page Logic ---
         let currentPage = 'home';
         const pages = ['home', 'quiz', 'contact'];
+        let quizInitialized = false;
 
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home');
@@ -1111,9 +1141,6 @@
                     { label: "D. Often, to avoid confrontation or being told off.", value: 'D' }
                 ]
             },
-
-            /* 🆕 NEW QUESTIONS ABOUT COMPARISON / SELF-DOUBT / EMPTINESS */
-
             {
                 q: "How often do you compare your looks, success, or lifestyle with people you see on Instagram, YouTube, or other apps?",
                 options: [
@@ -1160,6 +1187,27 @@
             return array;
         }
 
+        // Global quiz progress bar updater
+        function updateQuizProgress() {
+            const total = quizQuestions.length;
+            const labelEl = document.getElementById('quiz-progress-label');
+            const percentEl = document.getElementById('quiz-progress-percent');
+            const barEl = document.getElementById('quiz-progress-bar');
+            if (!labelEl || !percentEl || !barEl) return;
+
+            let answered = 0;
+            for (let i = 1; i <= total; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) answered++;
+            }
+
+            const percent = total === 0 ? 0 : Math.round((answered / total) * 100);
+
+            labelEl.textContent = `${answered} of ${total} answered`;
+            percentEl.textContent = `${percent}%`;
+            barEl.style.width = `${percent}%`;
+        }
+
         function renderQuiz() {
             const form = document.getElementById('addiction-quiz');
             if (!form) return;
@@ -1172,20 +1220,43 @@
                 const qNum = index + 1;
                 const questionDiv = document.createElement('div');
                 questionDiv.className = 'card hover-card p-6 rounded-2xl shadow-lg';
+
+                const total = quizQuestions.length;
+
                 questionDiv.innerHTML = `
+                    <div class="flex items-center justify-between mb-3 text-xs sm:text-sm text-slate-300">
+                        <span class="font-semibold">Question ${qNum} of ${total}</span>
+                        <div class="flex-1 ml-4 h-1.5 rounded-full bg-slate-800/70 overflow-hidden">
+                            <div class="h-full w-[${(qNum / total) * 100}%] bg-gradient-to-r from-emerald-400 via-amber-400 to-orange-500"></div>
+                        </div>
+                    </div>
                     <p class="text-lg sm:text-xl font-semibold mb-4 text-amber-300">Q${qNum}: ${qData.q}</p>
                     <div class="space-y-3">
                         ${qData.options.map(option => `
                             <label class="flex items-start p-3 bg-gray-900/60 rounded-xl cursor-pointer hover:bg-gray-800/80 transition border border-slate-700/70">
                                 <input type="radio" name="q${qNum}" value="${option.value}" required
                                        class="mt-1 h-5 w-5 text-amber-500 focus:ring-amber-500 border-gray-600 bg-gray-900">
-                                <span class="ml-3 text-gray-200 text-sm sm:text-base">${option.label}</span>
+                                <span class="ml-3 text-gray-100 text-sm sm:text-base">${option.label}</span>
                             </label>
                         `).join('')}
                     </div>
                 `;
                 form.appendChild(questionDiv);
             });
+
+            // Only attach listener once
+            if (!quizInitialized) {
+                form.addEventListener('change', (event) => {
+                    const target = event.target;
+                    if (target && target.matches('input[type="radio"][name^="q"]')) {
+                        updateQuizProgress();
+                    }
+                });
+                quizInitialized = true;
+            }
+
+            // Initialize progress bar
+            updateQuizProgress();
         }
 
         function resetQuizView() {
@@ -1198,6 +1269,7 @@
 
             if (form) {
                 form.classList.remove('hidden');
+                form.innerHTML = '';
             }
             if (submitBtn) {
                 submitBtn.classList.remove('hidden');
@@ -1215,6 +1287,9 @@
             if (seekHelpCta) {
                 seekHelpCta.classList.add('hidden');
             }
+
+            // Reset progress bar to 0
+            updateQuizProgress();
         }
 
         function submitQuiz() {
