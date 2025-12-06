@@ -766,8 +766,8 @@
                     <div class="lg:col-span-2 card hover-card p-6 sm:p-8 rounded-2xl shadow-2xl">
                         <h2 class="text-2xl sm:text-3xl font-bold text-amber-400 mb-6 border-b border-gray-700 pb-3">Send Us Your Inquiry</h2>
                         
-                        <!-- CONTACT FORM → sending to Google Apps Script -->
-                        <form id="contact-form" onsubmit="submitToGoogleSheet(event)">
+                        <!-- CONTACT FORM → combined with Razorpay -->
+                        <form id="contact-form" onsubmit="handleContactAndPayment(event)">
                             
                             <!-- Name and Email -->
                             <div class="grid sm:grid-cols-2 gap-6">
@@ -811,10 +811,73 @@
                                 <textarea id="message" name="message" rows="5" class="form-input" placeholder="Describe your concerns or request in detail..." required></textarea>
                             </div>
 
-                            <!-- Submission Button -->
+                            <!-- Engagement / Support / Donation Options -->
+                            <div class="mt-8 space-y-4">
+                                <h3 class="text-lg sm:text-xl font-semibold text-white">How would you like to engage right now?</h3>
+                                <p class="text-xs sm:text-sm text-slate-400">
+                                    You can simply send your message, or also support this project / book a 1:1 consultation. Your details and any payment will be stored together.
+                                </p>
+
+                                <div class="space-y-3">
+                                    <!-- Contact only -->
+                                    <label class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-700/80 cursor-pointer hover:border-amber-400/80">
+                                        <input type="radio" name="engagement_type" value="contact_only" class="mt-1 h-4 w-4 text-amber-500" checked>
+                                        <span class="text-sm sm:text-base text-slate-100">
+                                            <span class="font-semibold">Just contact / I need guidance (no payment now)</span>
+                                            <span class="block text-xs sm:text-sm text-slate-400">
+                                                Your message will be sent to our team, and we’ll get back to you by email / phone.
+                                            </span>
+                                        </span>
+                                    </label>
+
+                                    <!-- Support / donation -->
+                                    <label class="flex flex-col gap-2 p-3 rounded-xl bg-slate-900/60 border border-slate-700/80 cursor-pointer hover:border-amber-400/80">
+                                        <div class="flex items-start gap-3">
+                                            <input type="radio" name="engagement_type" value="support_donation" class="mt-1 h-4 w-4 text-amber-500">
+                                            <span class="text-sm sm:text-base text-slate-100">
+                                                <span class="font-semibold">Support / Donate to the Digital Detox project</span>
+                                                <span class="block text-xs sm:text-sm text-slate-400">
+                                                    A small one-time contribution to keep this awareness work going (in test mode for now).
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="pl-7 flex flex-wrap gap-2">
+                                            <label class="inline-flex items-center text-xs sm:text-sm px-2.5 py-1.5 rounded-full bg-slate-950/70 border border-slate-700/80 cursor-pointer">
+                                                <input type="radio" name="donation_amount" value="199" class="h-3.5 w-3.5 text-amber-500">
+                                                <span class="ml-2 text-slate-200">₹199</span>
+                                            </label>
+                                            <label class="inline-flex items-center text-xs sm:text-sm px-2.5 py-1.5 rounded-full bg-slate-950/70 border border-slate-700/80 cursor-pointer">
+                                                <input type="radio" name="donation_amount" value="299" class="h-3.5 w-3.5 text-amber-500">
+                                                <span class="ml-2 text-slate-200">₹299</span>
+                                            </label>
+                                            <label class="inline-flex items-center text-xs sm:text-sm px-2.5 py-1.5 rounded-full bg-slate-950/70 border border-slate-700/80 cursor-pointer">
+                                                <input type="radio" name="donation_amount" value="399" class="h-3.5 w-3.5 text-amber-500">
+                                                <span class="ml-2 text-slate-200">₹399</span>
+                                            </label>
+                                        </div>
+                                    </label>
+
+                                    <!-- 1:1 consultation -->
+                                    <label class="flex items-start gap-3 p-3 rounded-xl bg-slate-900/60 border border-slate-700/80 cursor-pointer hover:border-amber-400/80">
+                                        <input type="radio" name="engagement_type" value="consult_1_1" class="mt-1 h-4 w-4 text-amber-500">
+                                        <span class="text-sm sm:text-base text-slate-100">
+                                            <span class="font-semibold">1:1 Deep Consultation Call – ₹999</span>
+                                            <span class="block text-xs sm:text-sm text-slate-400">
+                                                A focused 45–60 minute session to understand your situation and build a realistic detox plan.
+                                            </span>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                <p class="text-[0.7rem] sm:text-xs text-slate-500">
+                                    If you choose a paid option, you’ll be redirected to a secure Razorpay checkout. Your contact details and payment will be saved together – you do <span class="font-semibold text-amber-300">not</span> need to fill anything twice.
+                                </p>
+                            </div>
+
+                            <!-- Submission Button (single flow for contact + payment) -->
                             <button id="contact-submit-btn" type="submit"
                                     class="mt-6 w-full primary-btn text-white font-bold py-3 px-6 rounded-lg text-base sm:text-lg shadow-xl flex items-center justify-center gap-2">
-                                <span id="contact-submit-text">Send Message (Completely Confidential)</span>
+                                <span id="contact-submit-text">Send Details / Continue</span>
                                 <span id="contact-loading-spinner" class="hidden h-4 w-4 border-2 border-slate-900 border-t-transparent rounded-full animate-spin"></span>
                             </button>
 
@@ -912,6 +975,9 @@
         ⬆
     </button>
 
+    <!-- Razorpay Checkout script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
     <script>
         // --- Navigation / Page Logic ---
         let currentPage = 'home';
@@ -920,6 +986,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             showPage('home');
             setupNavLinks();
+            setupDonationRadios();
         });
 
         function setupNavLinks() {
@@ -989,6 +1056,7 @@
             }
         });
 
+        // --- Quiz Logic ---
         const quizQuestions = [
             {
                 q: "How often do you check your phone within 5 minutes of waking up?",
@@ -1125,9 +1193,6 @@
                     { label: "D. Often, to avoid confrontation or being told off.", value: 'D' }
                 ]
             },
-
-            /* NEW QUESTIONS ABOUT COMPARISON / SELF-DOUBT / EMPTINESS */
-
             {
                 q: "How often do you compare your looks, success, or lifestyle with people you see on Instagram, YouTube, or other apps?",
                 options: [
@@ -1426,75 +1491,266 @@
             resultDiv.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // --- Contact Form Submission Handler (Google Sheet + Apps Script) ---
+        // --- Contact + Payment Logic (Google Sheet + Razorpay) ---
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMdtbwzI4ECiPQ4NYoRERyNla-SDXwwxHHgW0BsmbdNl3ZKB7v4DQVeyvH0J2w7BI4hw/exec';
+        const RAZORPAY_KEY_ID = 'rzp_test_RoJWhxfpulKfOB'; // TEST key – use LIVE key in production
 
-        async function submitToGoogleSheet(event) {
-            event.preventDefault(); // stop normal form submit
+        function setupDonationRadios() {
+            const donationRadios = document.querySelectorAll('input[name="donation_amount"]');
+            donationRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const supportRadio = document.querySelector('input[name="engagement_type"][value="support_donation"]');
+                    if (supportRadio) supportRadio.checked = true;
+                });
+            });
+        }
 
-            const form = event.target;
-            const feedbackDiv = document.getElementById('form-feedback');
+        function getPaymentAmountRupees(engagementType) {
+            if (engagementType === 'support_donation') {
+                const donationChoice = document.querySelector('input[name="donation_amount"]:checked');
+                if (donationChoice) {
+                    const value = parseInt(donationChoice.value, 10);
+                    return isNaN(value) ? 0 : value;
+                }
+                return 0;
+            } else if (engagementType === 'consult_1_1') {
+                return 999;
+            }
+            return 0;
+        }
+
+        function getPaymentDescription(engagementType) {
+            if (engagementType === 'support_donation') {
+                return 'Support / Donation to Digital Detox project';
+            } else if (engagementType === 'consult_1_1') {
+                return '1:1 Mobile/Screen Addiction Consultation';
+            }
+            return 'Digital Detox Support';
+        }
+
+        function setContactButtonLoading(isLoading, labelText) {
             const submitBtn = document.getElementById('contact-submit-btn');
             const submitText = document.getElementById('contact-submit-text');
             const spinner = document.getElementById('contact-loading-spinner');
 
-            // Show "sending..." message
-            feedbackDiv.classList.remove('hidden');
-            feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
-            feedbackDiv.innerHTML = 'Sending your message... Please wait...';
+            if (!submitBtn || !submitText || !spinner) return;
 
-            // Button loading state
-            if (submitBtn && submitText && spinner) {
+            if (isLoading) {
                 submitBtn.disabled = true;
                 submitBtn.classList.add('opacity-90', 'cursor-not-allowed');
-                submitText.textContent = 'Sending...';
+                submitText.textContent = labelText || 'Please wait...';
                 spinner.classList.remove('hidden');
-            }
-
-            const formData = new FormData(form);
-
-            try {
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData,
-                    mode: 'no-cors' // we don't need to read the response, just send data
-                });
-
-                // Get name before reset
-                const nameValue = (form.querySelector('#name')?.value || '').trim() || 'Friend';
-
-                // Show success message in the small banner
-                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
-                feedbackDiv.innerHTML = '🎉 Success! Your message has been stored. We will get back to you soon.';
-
-                // Reset form
-                form.reset();
-
-                // Reset button state
-                if (submitBtn && submitText && spinner) {
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-90', 'cursor-not-allowed');
-                    submitText.textContent = 'Send Message (Completely Confidential)';
-                    spinner.classList.add('hidden');
-                }
-
-                // Show the delight popup
-                showSuccessModal(nameValue);
-
-            } catch (error) {
-                console.error(error);
-                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
-                feedbackDiv.innerHTML = '❌ Something went wrong. Please try again later.';
-
-                if (submitBtn && submitText && spinner) {
-                    submitBtn.disabled = false;
-                    submitBtn.classList.remove('opacity-90', 'cursor-not-allowed');
-                    submitText.textContent = 'Send Message (Completely Confidential)';
-                    spinner.classList.add('hidden');
-                }
+            } else {
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-90', 'cursor-not-allowed');
+                submitText.textContent = 'Send Details / Continue';
+                spinner.classList.add('hidden');
             }
         }
 
+        async function sendFormToGoogleSheet(form, extraFields) {
+            const formData = new FormData(form);
+            if (extraFields && typeof extraFields === 'object') {
+                Object.entries(extraFields).forEach(([key, value]) => {
+                    formData.append(key, value);
+                });
+            }
+
+            await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                body: formData,
+                mode: 'no-cors'
+            });
+        }
+
+        function openRazorpayCheckout(config) {
+            const {
+                nameValue,
+                emailValue,
+                phoneValue,
+                amountPaise,
+                amountRupees,
+                engagementType,
+                onSuccess,
+                onFailureOrCancel
+            } = config;
+
+            if (typeof Razorpay === 'undefined') {
+                console.error('Razorpay script not loaded');
+                if (typeof onFailureOrCancel === 'function') onFailureOrCancel();
+                return;
+            }
+
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: amountPaise,
+                currency: 'INR',
+                name: 'Digital Detox',
+                description: getPaymentDescription(engagementType),
+                prefill: {
+                    name: nameValue,
+                    email: emailValue,
+                    contact: phoneValue
+                },
+                theme: {
+                    color: '#F59E0B'
+                },
+                handler: function (response) {
+                    if (typeof onSuccess === 'function') {
+                        onSuccess(response);
+                    }
+                },
+                modal: {
+                    ondismiss: function () {
+                        if (typeof onFailureOrCancel === 'function') {
+                            onFailureOrCancel();
+                        }
+                    }
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        async function handleContactAndPayment(event) {
+            if (event) event.preventDefault();
+
+            const form = document.getElementById('contact-form');
+            const feedbackDiv = document.getElementById('form-feedback');
+            if (!form) return;
+
+            if (feedbackDiv) {
+                feedbackDiv.classList.add('hidden');
+            }
+
+            // HTML5 field validation
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const engagementRadio = document.querySelector('input[name="engagement_type"]:checked');
+            if (!engagementRadio) {
+                if (feedbackDiv) {
+                    feedbackDiv.classList.remove('hidden');
+                    feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
+                    feedbackDiv.innerHTML = 'Please choose how you would like to engage (Contact only / Support / Consultation).';
+                }
+                return;
+            }
+
+            const engagementType = engagementRadio.value;
+            const nameValue = (form.querySelector('#name')?.value || '').trim() || 'Friend';
+            const emailValue = (form.querySelector('#email')?.value || '').trim();
+            const phoneValue = (form.querySelector('#phone')?.value || '').trim();
+
+            // Contact only – no payment
+            if (engagementType === 'contact_only') {
+                setContactButtonLoading(true, 'Sending your message...');
+                if (feedbackDiv) {
+                    feedbackDiv.classList.remove('hidden');
+                    feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
+                    feedbackDiv.innerHTML = 'Sending your message... Please wait...';
+                }
+
+                try {
+                    await sendFormToGoogleSheet(form, {
+                        engagement_type: 'contact_only',
+                        payment_status: 'NO_PAYMENT',
+                        payment_amount: 0,
+                        payment_id: ''
+                    });
+
+                    if (feedbackDiv) {
+                        feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
+                        feedbackDiv.innerHTML = '✅ Success! Your message has been received. We will get back to you soon.';
+                    }
+
+                    showSuccessModal(nameValue);
+                    form.reset();
+                } catch (error) {
+                    console.error(error);
+                    if (feedbackDiv) {
+                        feedbackDiv.classList.remove('hidden');
+                        feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
+                        feedbackDiv.innerHTML = '❌ Something went wrong. Please try again later.';
+                    }
+                } finally {
+                    setContactButtonLoading(false);
+                }
+
+                return;
+            }
+
+            // Paid options
+            const amountRupees = getPaymentAmountRupees(engagementType);
+            if (!amountRupees || amountRupees <= 0) {
+                if (feedbackDiv) {
+                    feedbackDiv.classList.remove('hidden');
+                    feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
+                    feedbackDiv.innerHTML = 'Please select an amount for your support / donation.';
+                }
+                return;
+            }
+
+            const amountPaise = amountRupees * 100;
+
+            setContactButtonLoading(true, 'Opening secure payment...');
+            if (feedbackDiv) {
+                feedbackDiv.classList.remove('hidden');
+                feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-blue-900/40 text-blue-300';
+                feedbackDiv.innerHTML = 'Opening secure Razorpay payment window...';
+            }
+
+            openRazorpayCheckout({
+                nameValue,
+                emailValue,
+                phoneValue,
+                amountPaise,
+                amountRupees,
+                engagementType,
+                onSuccess: async (response) => {
+                    if (feedbackDiv) {
+                        feedbackDiv.classList.remove('hidden');
+                        feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-green-900/40 text-green-300';
+                        feedbackDiv.innerHTML = `✅ Payment successful (TEST MODE). Payment ID: ${response.razorpay_payment_id || ''}`;
+                    }
+
+                    try {
+                        await sendFormToGoogleSheet(form, {
+                            engagement_type: engagementType,
+                            payment_status: 'PAID_TEST',
+                            payment_amount: amountRupees,
+                            payment_currency: 'INR',
+                            payment_id: response.razorpay_payment_id || ''
+                        });
+
+                        showSuccessModal(nameValue);
+                        form.reset();
+                    } catch (error) {
+                        console.error(error);
+                        if (feedbackDiv) {
+                            feedbackDiv.classList.remove('hidden');
+                            feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-yellow-900/40 text-yellow-200';
+                            feedbackDiv.innerHTML = 'Payment was successful, but saving your details seems to have failed. Please contact us directly if you do not hear back.';
+                        }
+                    } finally {
+                        setContactButtonLoading(false);
+                    }
+                },
+                onFailureOrCancel: () => {
+                    if (feedbackDiv) {
+                        feedbackDiv.classList.remove('hidden');
+                        feedbackDiv.className = 'mt-4 p-3 rounded-lg text-center bg-red-900/40 text-red-300';
+                        feedbackDiv.innerHTML = 'Payment was not completed. You can try again, or choose "Just contact" to send a message without payment.';
+                    }
+                    setContactButtonLoading(false);
+                }
+            });
+        }
+
+        // --- Success Modal helpers ---
         function showSuccessModal(name) {
             const modal = document.getElementById('success-modal');
             const nameSpan = document.getElementById('success-name');
